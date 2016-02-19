@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:amq="http://activemq.apache.org/schema/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+        ">
+
+	<!-- 重发策略设置 -->
+	<amq:redeliveryPolicyMap id="redeliveryPolicyMap">
+		<amq:redeliveryPolicyEntries>
+			<amq:redeliveryPolicy topic=">" maximumRedeliveries="3" />
+			<amq:redeliveryPolicy queue=">" maximumRedeliveries="3" />
+		</amq:redeliveryPolicyEntries>
+	</amq:redeliveryPolicyMap>
+
+	<bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory"
+		destroy-method="stop">
+		<property name="connectionFactory">
+			<bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL">
+					<value>${jms.activemq.server}</value>
+				</property>
+				<property name="RedeliveryPolicyMap" ref="redeliveryPolicyMap" />
+			</bean>
+		</property>
+		<property name="maxConnections" value="100"></property>
+	</bean>
+
+	<!-- spring jms 模版 -->
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate" >
+		<property name="connectionFactory" ref="jmsFactory" />
+		<!--订阅 发布模式 -->
+		<property name="pubSubDomain" value="true" />
+	</bean>
+
+	<!-- 消息队列 -->
+	<bean id="${jms.invest.back.mq.topicName}" class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="${jms.invest.back.mq.topicName}" />
+	</bean>
+
+
+</beans>

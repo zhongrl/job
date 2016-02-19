@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xn.job.console.mapperoracle.OutRecordQueryMapper" >
+	
+	<parameterMap type="balanceRecordDO" id="balanceRecordDO" />
+	<parameterMap type="inOutRecordDO" id="inOutRecordDO" />
+	<parameterMap type="bankApiLogDO" id="bankApiLogDO" />
+	<parameterMap type="pushMessageDO" id="pushMessageDO" />
+	<parameterMap type="systemMessageDO" id="systemMessageDO" />
+   
+    <select id="getOutRecords"  resultType="inOutRecordDO" parameterType="map">
+      SELECT * FROM tp_inout_record 
+			WHERE FStatus = #{fStatus, jdbcType=VARCHAR}
+    </select>
+    
+    <select id="getBalanceRecordDO"  resultType="balanceRecordDO" parameterType="map">
+      	SELECT * FROM tp_balance_record  
+			 WHERE FTransRecordId= #{fTransRecordId, jdbcType=VARCHAR} 
+			AND FTransType IN(#{fTransTypeOne, jdbcType=VARCHAR} ,#{fTransTypeTwo, jdbcType=VARCHAR})
+    </select>
+    
+     <select id="getBankName"  resultType="string" parameterType="string">
+      	 SELECT tb.FName FROM tp_bank_account tba 
+      		LEFT JOIN TpBank  tb ON tba.FBankId = tb.FId
+		 WHERE tba.FId= #{fId, jdbcType=VARCHAR} 
+    </select>
+    
+     <select id="getMessageRecord"  resultType="recordDO" parameterType="string">
+      	SELECT FDeviceToken,FDeviceType FROM ts_userDevice 
+      		WHERE FUserId=#{userId, jdbcType=VARCHAR}  AND FIsValid=1
+    </select>
+    
+    <insert id="insertPushMessage" parameterMap="pushMessageDO">
+	   	INSERT INTO ts_pushMessage 
+	   		<trim prefix="(" suffix=")" suffixOverrides="," >
+			   	<if test="fId != null">
+			   		FId,
+			   	</if>
+			   		<if test="fContent != null">
+			   		FContent,
+			   	</if>
+			   		<if test="fDeviceToken != null">
+			   		FDeviceToken,
+			   	</if>
+			   		<if test="fStatus != null">
+			   		FStatus,
+			   	</if>
+			   		<if test="fBatchNumber != null">
+			   		FBatchNumber,
+			   	</if>
+			   	<if test="fIsHandled != null">
+			   		FIsHandled,
+			   	</if>
+			   	<if test="fStatusDesc != null">
+			   		FStatusDesc,
+			   	</if>
+			   	<if test="fType != null">
+			   		FType,
+			   	</if>
+			   	<if test="fSourceId != null">
+			   		FSourceId,
+			   	</if>
+			   	<if test="fOtherParams != null">
+			   		FOtherParams,
+			   	</if>
+			   	<if test="fBadge != null">
+			   		FBadge,
+			   	</if>
+			   	<if test="fCreateTime != null">
+			   		FCreateTime,
+			   	</if>
+			   	<if test="fPushTime != null">
+			   		FPushTime,
+			   	</if>
+		 </trim>
+	     <trim prefix="values (" suffix=")" suffixOverrides="," >
+	     		<if test="fId != null">
+			   		#{fId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fContent != null">
+			   		#{fContent, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fDeviceToken != null">
+			   		#{fDeviceToken, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fStatus != null">
+			   		#{fStatus, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fBatchNumber != null">
+			   		#{fBatchNumber, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fIsHandled != null">
+			   		#{fIsHandled, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fStatusDesc != null">
+			   		#{fStatusDesc, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fType != null">
+			   		#{fType, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fSourceId != null">
+			   		#{fSourceId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fOtherParams != null">
+			   		#{fOtherParams, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fBadge != null">
+			   		#{fBadge, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fCreateTime != null">
+			   		#{fCreateTime, jdbcType=TIMESTAMP},
+			   	</if>
+			   	<if test="fPushTime != null">
+			   		#{fPushTime, jdbcType=TIMESTAMP},
+			   	</if>
+	     </trim>
+   </insert> 
+    
+     <insert id="insertSystemMessage" parameterMap="systemMessageDO">
+	   	INSERT INTO ts_systemMessage 
+	   	<trim prefix="(" suffix=")" suffixOverrides="," >
+		   	<if test="fId != null">
+		   		FId,
+		   	</if>
+		   		<if test="fSubject != null">
+		   		FSubject,
+		   	</if>
+		   		<if test="fUserId != null">
+		   		FUserId,
+		   	</if>
+		   		<if test="fSendTime != null">
+		   		FSendTime,
+		   	</if>
+		   		<if test="fUnread != null">
+		   		FUnread,
+		   	</if>
+		   	<if test="fContent != null">
+		   		FContent,
+		   	</if>
+		   	<if test="fNumber != null">
+		   		FNumber,
+		   	</if>
+		 </trim>
+	     <trim prefix="values (" suffix=")" suffixOverrides="," >
+     	 	<if test="fId != null">
+		   		#{fId, jdbcType=VARCHAR},
+		   	</if>
+		   	<if test="fSubject != null">
+		   		#{fSubject, jdbcType=VARCHAR},
+		   	</if>
+		   	<if test="fUserId != null">
+		   		#{fUserId, jdbcType=VARCHAR},
+		   	</if>
+		   	<if test="fSendTime != null">
+		   		#{fSendTime, jdbcType=TIMESTAMP},
+		   	</if>
+		   	<if test="fUnread != null">
+		   		#{fUnread, jdbcType=VARCHAR},
+		   	</if>
+		   	<if test="fContent != null">
+		   		#{fContent, jdbcType=VARCHAR},
+		   	</if>
+		   	<if test="fNumber != null">
+		   		#{fNumber, jdbcType=VARCHAR},
+		   	</if>
+	     </trim>
+   </insert> 
+
+   <update id="updatePushMessageDO" parameterType="map">
+   	UPDATE ts_pushMessage SET 
+   			FIsHandled=1,
+   			FPushTime=#{fPushTime, jdbcType=TIMESTAMP} 
+   		WHERE FId=#{fId, jdbcType=VARCHAR}
+   </update>
+   <update id="updatePushMessageStatus" parameterType="map">
+   		UPDATE ts_pushMessage SET 
+   			FStatusDesc=#{fStatusDesc, jdbcType=VARCHAR} ,
+   			FStatus=#{fStatus, jdbcType=VARCHAR},
+   			FPushTime=#{fPushTime, jdbcType=TIMESTAMP} 
+   			WHERE FId=#{fId, jdbcType=VARCHAR}
+   </update>
+   
+</mapper>

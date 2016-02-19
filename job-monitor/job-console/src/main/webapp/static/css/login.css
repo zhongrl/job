@@ -1,0 +1,46 @@
+.font {
+	font-family: "宋体";
+	font-size: 14px;
+	line-height: 18px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.font1 {
+	font-family: Arial, Helvetica, sans-serif, "宋体";
+	font-size: 12px;
+	line-height: 18px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.biaodan {
+	COLOR: #6B747D;
+	border: 1px solid #cfcfcf;
+}
+
+.inputBox{
+	BORDER-BOTTOM: #bdc7d8 1px solid;
+	BORDER-LEFT: #bdc7d8 1px solid;
+	height:25px;
+	line-height:23px;
+	margin:0px;
+	padding:0px;
+	WIDTH: 180px;
+	FONT-SIZE: 14px;
+	BORDER-TOP: #bdc7d8 1px solid;
+	BORDER-RIGHT: #bdc7d8 1px solid;
+}
+body {
+	background-color: #1362AD;
+	background-image: url();
+}
+
+.sys-msg{
+	padding:4px;
+	font-size:12px;
+	color:red;
+	height:20px;
+	line-height:20px;
+	color:#F00;
+	border:0px solid #FFB0B0;
+	background-color:#FFECEC;
+}

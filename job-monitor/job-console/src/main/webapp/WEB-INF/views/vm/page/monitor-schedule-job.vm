@@ -1,0 +1,8 @@
+#set($layout="/layout/layout_no.vm")
+#set($title="定时任务监控")
+#set($rootPath = $!sysUtil.getSysName())
+
+<table id="waitingJobList" title="定时任务监控" class="easyui-datagrid" style="width:100%;"></table>
+</br>
+
+<script type="text/javascript" src="${rootPath}/js/monitor-schedule-job.js"></script>

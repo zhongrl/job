@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xn.job.console.mapperoracle.InRecordQueryDOMapper" >
+	
+	<parameterMap type="balanceRecordDO" id="balanceRecordDO" />
+	<parameterMap type="inOutRecordDO" id="inOutRecordDO" />
+	<parameterMap type="bankApiLogDO" id="bankApiLogDO" />
+	
+    <resultMap id="recordDOMap" type="cn.xn.job.console.model.RecordDO" >
+    
+    </resultMap>
+	 <!-- 100充值支付查询-->
+    <select id="getRecords"  resultType="recordDO" parameterType="map">
+      SELECT FId, FNumber,FBizTime FROM tp_inout_record 
+			WHERE FStatus = #{fStatus, jdbcType=VARCHAR}
+    </select>
+
+     <select id="getParameter"  resultType="string" parameterType="string">
+      	SELECT ts.FValue FROM 
+          ts_systemParameter ts 
+          INNER JOIN ts_parameterDefinition tsd 
+          ON ts.FKey=tsd.FId 
+        WHERE tsd.FCode = #{code, jdbcType=VARCHAR}
+    </select>
+    
+    <select id="getInOutRecordDO"  resultType="inOutRecordDO" parameterType="string">
+      	SELECT * FROM tp_inout_record WHERE FNumber = #{number, jdbcType=VARCHAR}  
+      	AND rownum=1 ORDER BY "FBizTime" DESC
+    </select>
+    
+    <update id="updateUserFIsIdValid" parameterType="map">
+   	 	UPDATE ts_user
+	    	SET FIsIdValid = #{fIsIdValid, jdbcType=VARCHAR}
+	    	WHERE FId = #{fId, jdbcType=VARCHAR}
+    </update>
+    
+    <update id="updateBindSuccess" parameterType="map">
+     	UPDATE tp_bank_account 
+     		SET FIsCheck = 1, FPayTunnel = 1 
+     		WHERE FId= #{fId, jdbcType=VARCHAR}
+    </update>
+   
+    <select id="getUserAsscet"  resultType="userAssetDO" parameterType="string">
+      	SELECT * FROM tp_userAsset WHERE FUserId = #{userId, jdbcType=VARCHAR}
+    </select>
+    
+    <update id="updateTpUserAsscet" parameterType="map">
+	    UPDATE tp_userasset 
+		    <set>
+			    <if test="fToInvestAmt != null">
+			    	FToInvestAmt=#{fToInvestAmt, jdbcType=FLOAT},
+			    </if>
+			    <if test="fTotalAsset != null">
+			    	FTotalAsset=#{fTotalAsset, jdbcType=FLOAT}, 
+			    </if>
+			    <if test="fBlockedAssets != null">
+			    	FBlockedAssets=#{fBlockedAssets, jdbcType=FLOAT}, 
+			    </if>
+		    </set>
+	    WHERE FId = #{fId, jdbcType=VARCHAR}
+    </update>
+   
+   <insert id="insertBalanceRecord" parameterMap="balanceRecordDO">
+	   	INSERT INTO tp_balance_Record 
+	   		<trim prefix="(" suffix=")" suffixOverrides="," >
+			   	<if test="fId != null">
+			   		FId,
+			   	</if>
+			   		<if test="fName != null">
+			   		FName,
+			   	</if>
+			   		<if test="fUserId != null">
+			   		FUserId,
+			   	</if>
+			   		<if test="fAmount != null">
+			   		FAmount,
+			   	</if>
+			   		<if test="fProductId != null">
+			   		FProductId,
+			   	</if>
+			   	<if test="fToInvestAmt != null">
+			   		FToInvestAmt,
+			   	</if>
+			   	<if test="fTotalAsset != null">
+			   		FTotalAsset,
+			   	</if>
+			   	<if test="fRemark != null">
+			   		FRemark,
+			   	</if>
+			   	<if test="fBizTime != null">
+			   		FBizTime,
+			   	</if>
+			   	<if test="fTransRecordId != null">
+			   		FTransRecordId,
+			   	</if>
+			   	<if test="fTransType != null">
+			   		FTransType,
+			   	</if>
+			   	<if test="fTransTypeUnitId != null">
+			   		FTransTypeUnitId,
+			   	</if>
+			   	<if test="fNumber != null">
+			   		FNumber,
+			   	</if>
+			   	<if test="fBlockedAssets != null">
+			   		FBlockedAssets,
+			   	</if>
+		 </trim>
+	     <trim prefix="values (" suffix=")" suffixOverrides="," >
+	     		<if test="fId != null">
+			   		#{fId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fName != null">
+			   		#{fName, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fUserId != null">
+			   		#{fUserId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fAmount != null">
+			   		#{fAmount, jdbcType=FLOAT},
+			   	</if>
+			   	<if test="fProductId != null">
+			   		#{fProductId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fToInvestAmt != null">
+			   		#{fToInvestAmt, jdbcType=FLOAT},
+			   	</if>
+			   	<if test="fTotalAsset != null">
+			   		#{fTotalAsset, jdbcType=FLOAT},
+			   	</if>
+			   	<if test="fRemark != null">
+			   		#{fRemark, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fBizTime != null">
+			   		#{fBizTime, jdbcType=TIMESTAMP},
+			   	</if>
+			   	<if test="fTransRecordId != null">
+			   		#{fTransRecordId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fTransType != null">
+			   		#{fTransType, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fTransTypeUnitId != null">
+			   		#{fTransTypeUnitId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fNumber != null">
+			   		#{fNumber, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fBlockedAssets != null">
+			   		#{fBlockedAssets, jdbcType=FLOAT},
+			   	</if>
+	     </trim>
+   </insert> 
+   
+   <update id="updateInOutRecord" parameterType="map">
+   		UPDATE tp_inout_record
+	   		<set>
+	   			<if test="fToInvestAmt != null">
+	   				FToInvestAmt = #{fToInvestAmt, jdbcType=FLOAT},
+	   			</if>
+	   			<if test="fStatus != null">
+	   				FStatus = #{fStatus, jdbcType=VARCHAR},
+	   			</if>
+	   			<if test="fRemark != null">
+	   				FRemark = #{fRemark, jdbcType=VARCHAR},
+	   			</if>
+	   		</set>
+	   		WHERE 1=1 
+	   			<if test="fId != null">
+	   				AND "FId" = #{fId, jdbcType=VARCHAR}
+	   			</if>
+	   			<if test="fNumber != null">
+	   				AND "FNumber" = #{fNumber, jdbcType=VARCHAR}
+	   			</if>
+	   			<if test="whereFStatus != null">
+	   				AND "FStatus" = #{whereFStatus, jdbcType=VARCHAR}
+	   			</if>
+   </update>
+   
+   <!-- 银行流水 -->
+   <insert id="insertBankApiLog" parameterMap="bankApiLogDO">
+	   	INSERT INTO tp_bankApiLog 
+	   		<trim prefix="(" suffix=")" suffixOverrides="," >
+			   	<if test="fId != null">
+			   		FId,
+			   	</if>
+			   		<if test="fName != null">
+			   		FName,
+			   	</if>
+			   		<if test="fUserId != null">
+			   		FUserId,
+			   	</if>
+			   		<if test="fOperation != null">
+			   		FOperation,
+			   	</if>
+			   		<if test="fArgs != null">
+			   		FArgs,
+			   	</if>
+			   	<if test="fResult != null">
+			   		FResult,
+			   	</if>
+			   	<if test="fBankAcountFId != null">
+			   		FBankAcountFId,
+			   	</if>
+			   	<if test="fInOutRecordId != null">
+			   		FInOutRecordId,
+			   	</if>
+			   	<if test="fCreateTime != null">
+			   		FCreateTime,
+			   	</if>
+		 </trim>
+	     <trim prefix="values (" suffix=")" suffixOverrides="," >
+			   	<if test="fId != null">
+			   		#{fId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fName != null">
+			   		#{fName, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fUserId != null">
+			   		#{fUserId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fOperation != null">
+			   		#{fOperation, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fArgs != null">
+			   		#{fArgs, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fResult != null">
+			   		#{fResult, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fBankAcountFId != null">
+			   		#{fBankAcountFId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fInOutRecordId != null">
+			   		#{fInOutRecordId, jdbcType=VARCHAR},
+			   	</if>
+			   	<if test="fCreateTime != null">
+			   		#{fCreateTime, jdbcType=VARCHAR},
+			   	</if>
+	     </trim>
+   </insert> 
+</mapper>

@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xn.job.service.product.mapper.TpInvestRecordDOMapper" >
+  <resultMap id="BaseResultMap" type="cn.xn.job.service.product.model.TpInvestRecordDO" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="FId" property="fid" jdbcType="VARCHAR" />
+    
+    <!-- 名称 -->
+    <result column="FName" property="fname" jdbcType="VARCHAR" />
+    
+    <!-- 操作时间 -->
+    <result column="FBizTime" property="fbiztime" jdbcType="TIMESTAMP" />
+    
+    <!-- 用户ID -->
+    <result column="FUserId" property="fuserid" jdbcType="VARCHAR" />
+    
+    <!-- 产品ID -->
+    <result column="FProductId" property="fproductid" jdbcType="VARCHAR" />
+    
+    <!-- 计息日期 -->
+    <result column="FStartTime" property="fstarttime" jdbcType="TIMESTAMP" />
+    
+    <!-- 回款日期 -->
+    <result column="FEndTime" property="fendtime" jdbcType="TIMESTAMP" />
+    
+    <!-- 投资本金 -->
+    <result column="FInvestAmt" property="finvestamt" jdbcType="DECIMAL" />
+    
+    <!-- 收益（2位小数） -->
+    <result column="FProfit" property="fprofit" jdbcType="DECIMAL" />
+    
+    <!-- 精准收益（6位小数） -->
+    <result column="FAccurateProfit" property="faccurateprofit" jdbcType="DECIMAL" />
+    
+    <!-- 备注 -->
+    <result column="FRemark" property="fremark" jdbcType="VARCHAR" />
+    
+    <!-- 状态 (2/投资成功，3/回款成功) -->
+    <result column="FStatus" property="fstatus" jdbcType="INTEGER" />
+    
+    <!-- 编号 -->
+    <result column="FNumber" property="fnumber" jdbcType="VARCHAR" />
+    
+    <!-- 协议号 -->
+    <result column="FProtocolNumber" property="fprotocolnumber" jdbcType="VARCHAR" />
+    
+    <!-- 出资金额 -->
+    <result column="FContributive" property="fcontributive" jdbcType="DECIMAL" />
+    
+    <!-- 0/固定(默认),1/浮动 -->
+    <result column="FIsFlow" property="fisflow" jdbcType="INTEGER" />
+    
+    <!-- 最大收益 -->
+    <result column="FMaxProfit" property="fmaxprofit" jdbcType="DECIMAL" />
+    
+    <!-- 产品名字 -->
+    <result column="FProductName" property="fproductname" jdbcType="VARCHAR" />
+    
+    <!-- 平台来源 -->
+    <result column="FPlatfrom" property="fplatfrom" jdbcType="VARCHAR" />
+    
+    <!-- 渠道来源 -->
+    <result column="FChannel" property="fchannel" jdbcType="VARCHAR" />
+
+    <result column="HANDLER_TIME" property="handlerTime" jdbcType="VARCHAR" />
+
+    <result column="INVEST_RECORD_NO" property="investRecordNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, FId, FName, FBizTime, FUserId, FProductId, FStartTime, FEndTime, FInvestAmt, 
+    FProfit, FAccurateProfit, FRemark, FStatus, FNumber, FProtocolNumber, FContributive, 
+    FIsFlow, FMaxProfit, FProductName, FPlatfrom, FChannel, HANDLER_TIME, INVEST_RECORD_NO
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xn.job.service.product.model.TpInvestRecordDOCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tp_invest_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tp_invest_record
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tp_invest_record
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.xn.job.service.product.model.TpInvestRecordDOCriteria" >
+    delete from tp_invest_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    insert into tp_invest_record (FId, FName, FBizTime, 
+      FUserId, FProductId, FStartTime, 
+      FEndTime, FInvestAmt, FProfit, 
+      FAccurateProfit, FRemark, FStatus, 
+      FNumber, FProtocolNumber, FContributive, 
+      FIsFlow, FMaxProfit, FProductName, 
+      FPlatfrom, FChannel)
+    values (#{fid,jdbcType=VARCHAR}, #{fname,jdbcType=VARCHAR}, #{fbiztime,jdbcType=TIMESTAMP}, 
+      #{fuserid,jdbcType=VARCHAR}, #{fproductid,jdbcType=VARCHAR}, #{fstarttime,jdbcType=TIMESTAMP}, 
+      #{fendtime,jdbcType=TIMESTAMP}, #{finvestamt,jdbcType=DECIMAL}, #{fprofit,jdbcType=DECIMAL}, 
+      #{faccurateprofit,jdbcType=DECIMAL}, #{fremark,jdbcType=VARCHAR}, #{fstatus,jdbcType=INTEGER}, 
+      #{fnumber,jdbcType=VARCHAR}, #{fprotocolnumber,jdbcType=VARCHAR}, #{fcontributive,jdbcType=DECIMAL}, 
+      #{fisflow,jdbcType=INTEGER}, #{fmaxprofit,jdbcType=DECIMAL}, #{fproductname,jdbcType=VARCHAR}, 
+      #{fplatfrom,jdbcType=VARCHAR}, #{fchannel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" >
+    insert into tp_invest_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fid != null" >
+        FId,
+      </if>
+      <if test="fname != null" >
+        FName,
+      </if>
+      <if test="fbiztime != null" >
+        FBizTime,
+      </if>
+      <if test="fuserid != null" >
+        FUserId,
+      </if>
+      <if test="fproductid != null" >
+        FProductId,
+      </if>
+      <if test="fstarttime != null" >
+        FStartTime,
+      </if>
+      <if test="fendtime != null" >
+        FEndTime,
+      </if>
+      <if test="finvestamt != null" >
+        FInvestAmt,
+      </if>
+      <if test="fprofit != null" >
+        FProfit,
+      </if>
+      <if test="faccurateprofit != null" >
+        FAccurateProfit,
+      </if>
+      <if test="fremark != null" >
+        FRemark,
+      </if>
+      <if test="fstatus != null" >
+        FStatus,
+      </if>
+      <if test="fnumber != null" >
+        FNumber,
+      </if>
+      <if test="fprotocolnumber != null" >
+        FProtocolNumber,
+      </if>
+      <if test="fcontributive != null" >
+        FContributive,
+      </if>
+      <if test="fisflow != null" >
+        FIsFlow,
+      </if>
+      <if test="fmaxprofit != null" >
+        FMaxProfit,
+      </if>
+      <if test="fproductname != null" >
+        FProductName,
+      </if>
+      <if test="fplatfrom != null" >
+        FPlatfrom,
+      </if>
+      <if test="fchannel != null" >
+        FChannel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fid != null" >
+        #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="fname != null" >
+        #{fname,jdbcType=VARCHAR},
+      </if>
+      <if test="fbiztime != null" >
+        #{fbiztime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fuserid != null" >
+        #{fuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="fproductid != null" >
+        #{fproductid,jdbcType=VARCHAR},
+      </if>
+      <if test="fstarttime != null" >
+        #{fstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fendtime != null" >
+        #{fendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finvestamt != null" >
+        #{finvestamt,jdbcType=DECIMAL},
+      </if>
+      <if test="fprofit != null" >
+        #{fprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="faccurateprofit != null" >
+        #{faccurateprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="fremark != null" >
+        #{fremark,jdbcType=VARCHAR},
+      </if>
+      <if test="fstatus != null" >
+        #{fstatus,jdbcType=INTEGER},
+      </if>
+      <if test="fnumber != null" >
+        #{fnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="fprotocolnumber != null" >
+        #{fprotocolnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="fcontributive != null" >
+        #{fcontributive,jdbcType=DECIMAL},
+      </if>
+      <if test="fisflow != null" >
+        #{fisflow,jdbcType=INTEGER},
+      </if>
+      <if test="fmaxprofit != null" >
+        #{fmaxprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="fproductname != null" >
+        #{fproductname,jdbcType=VARCHAR},
+      </if>
+      <if test="fplatfrom != null" >
+        #{fplatfrom,jdbcType=VARCHAR},
+      </if>
+      <if test="fchannel != null" >
+        #{fchannel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.xn.job.service.product.model.TpInvestRecordDOCriteria" resultType="java.lang.Integer" >
+    select count(*) from tp_invest_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tp_invest_record
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.fid != null" >
+        FId = #{record.fid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fname != null" >
+        FName = #{record.fname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbiztime != null" >
+        FBizTime = #{record.fbiztime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fuserid != null" >
+        FUserId = #{record.fuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fproductid != null" >
+        FProductId = #{record.fproductid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fstarttime != null" >
+        FStartTime = #{record.fstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fendtime != null" >
+        FEndTime = #{record.fendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.finvestamt != null" >
+        FInvestAmt = #{record.finvestamt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fprofit != null" >
+        FProfit = #{record.fprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.faccurateprofit != null" >
+        FAccurateProfit = #{record.faccurateprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fremark != null" >
+        FRemark = #{record.fremark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fstatus != null" >
+        FStatus = #{record.fstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.fnumber != null" >
+        FNumber = #{record.fnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fprotocolnumber != null" >
+        FProtocolNumber = #{record.fprotocolnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fcontributive != null" >
+        FContributive = #{record.fcontributive,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fisflow != null" >
+        FIsFlow = #{record.fisflow,jdbcType=INTEGER},
+      </if>
+      <if test="record.fmaxprofit != null" >
+        FMaxProfit = #{record.fmaxprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fproductname != null" >
+        FProductName = #{record.fproductname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fplatfrom != null" >
+        FPlatfrom = #{record.fplatfrom,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fchannel != null" >
+        FChannel = #{record.fchannel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tp_invest_record
+    set ID = #{record.id,jdbcType=INTEGER},
+      FId = #{record.fid,jdbcType=VARCHAR},
+      FName = #{record.fname,jdbcType=VARCHAR},
+      FBizTime = #{record.fbiztime,jdbcType=TIMESTAMP},
+      FUserId = #{record.fuserid,jdbcType=VARCHAR},
+      FProductId = #{record.fproductid,jdbcType=VARCHAR},
+      FStartTime = #{record.fstarttime,jdbcType=TIMESTAMP},
+      FEndTime = #{record.fendtime,jdbcType=TIMESTAMP},
+      FInvestAmt = #{record.finvestamt,jdbcType=DECIMAL},
+      FProfit = #{record.fprofit,jdbcType=DECIMAL},
+      FAccurateProfit = #{record.faccurateprofit,jdbcType=DECIMAL},
+      FRemark = #{record.fremark,jdbcType=VARCHAR},
+      FStatus = #{record.fstatus,jdbcType=INTEGER},
+      FNumber = #{record.fnumber,jdbcType=VARCHAR},
+      FProtocolNumber = #{record.fprotocolnumber,jdbcType=VARCHAR},
+      FContributive = #{record.fcontributive,jdbcType=DECIMAL},
+      FIsFlow = #{record.fisflow,jdbcType=INTEGER},
+      FMaxProfit = #{record.fmaxprofit,jdbcType=DECIMAL},
+      FProductName = #{record.fproductname,jdbcType=VARCHAR},
+      FPlatfrom = #{record.fplatfrom,jdbcType=VARCHAR},
+      FChannel = #{record.fchannel,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" >
+    update tp_invest_record
+    <set >
+      <if test="fid != null" >
+        FId = #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="fname != null" >
+        FName = #{fname,jdbcType=VARCHAR},
+      </if>
+      <if test="fbiztime != null" >
+        FBizTime = #{fbiztime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fuserid != null" >
+        FUserId = #{fuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="fproductid != null" >
+        FProductId = #{fproductid,jdbcType=VARCHAR},
+      </if>
+      <if test="fstarttime != null" >
+        FStartTime = #{fstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fendtime != null" >
+        FEndTime = #{fendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finvestamt != null" >
+        FInvestAmt = #{finvestamt,jdbcType=DECIMAL},
+      </if>
+      <if test="fprofit != null" >
+        FProfit = #{fprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="faccurateprofit != null" >
+        FAccurateProfit = #{faccurateprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="fremark != null" >
+        FRemark = #{fremark,jdbcType=VARCHAR},
+      </if>
+      <if test="fstatus != null" >
+        FStatus = #{fstatus,jdbcType=INTEGER},
+      </if>
+      <if test="fnumber != null" >
+        FNumber = #{fnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="fprotocolnumber != null" >
+        FProtocolNumber = #{fprotocolnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="fcontributive != null" >
+        FContributive = #{fcontributive,jdbcType=DECIMAL},
+      </if>
+      <if test="fisflow != null" >
+        FIsFlow = #{fisflow,jdbcType=INTEGER},
+      </if>
+      <if test="fmaxprofit != null" >
+        FMaxProfit = #{fmaxprofit,jdbcType=DECIMAL},
+      </if>
+      <if test="fproductname != null" >
+        FProductName = #{fproductname,jdbcType=VARCHAR},
+      </if>
+      <if test="fplatfrom != null" >
+        FPlatfrom = #{fplatfrom,jdbcType=VARCHAR},
+      </if>
+      <if test="fchannel != null" >
+        FChannel = #{fchannel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" >
+    update tp_invest_record
+    set FId = #{fid,jdbcType=VARCHAR},
+      FName = #{fname,jdbcType=VARCHAR},
+      FBizTime = #{fbiztime,jdbcType=TIMESTAMP},
+      FUserId = #{fuserid,jdbcType=VARCHAR},
+      FProductId = #{fproductid,jdbcType=VARCHAR},
+      FStartTime = #{fstarttime,jdbcType=TIMESTAMP},
+      FEndTime = #{fendtime,jdbcType=TIMESTAMP},
+      FInvestAmt = #{finvestamt,jdbcType=DECIMAL},
+      FProfit = #{fprofit,jdbcType=DECIMAL},
+      FAccurateProfit = #{faccurateprofit,jdbcType=DECIMAL},
+      FRemark = #{fremark,jdbcType=VARCHAR},
+      FStatus = #{fstatus,jdbcType=INTEGER},
+      FNumber = #{fnumber,jdbcType=VARCHAR},
+      FProtocolNumber = #{fprotocolnumber,jdbcType=VARCHAR},
+      FContributive = #{fcontributive,jdbcType=DECIMAL},
+      FIsFlow = #{fisflow,jdbcType=INTEGER},
+      FMaxProfit = #{fmaxprofit,jdbcType=DECIMAL},
+      FProductName = #{fproductname,jdbcType=VARCHAR},
+      FPlatfrom = #{fplatfrom,jdbcType=VARCHAR},
+      FChannel = #{fchannel,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select resultMap="BaseResultMap" parameterType="cn.xn.job.service.product.model.TpInvestRecordDOCriteria" id="selectByExampleWithRowbounds" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from tp_invest_record
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <!-- 修改投资记录状态 -->
+    <update id="updateStatusByUserId">
+        update tp_invest_record
+        set FStatus = #{fstatus,jdbcType=VARCHAR}
+        where FId = #{fid,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 查询返息时间 -->
+    <select id="selectBackProfitByExample" resultMap="BaseResultMap" parameterType="cn.xn.job.service.product.model.TpInvestRecordDO" >
+        select
+        distinct
+        <include refid="Base_Column_List" />
+        from tp_invest_record I
+        where 1=1
+        and I.FStatus = #{fstatus,jdbcType=VARCHAR}
+        and I.FEndTime = TO_DATE(#{fendtime},'yyyy-MM-dd')
+    </select>
+
+    <!-- 根据产品获取投资记录 -->
+    <select id="queryInvestRecordListByJob" resultMap="BaseResultMap" parameterType="TpInvestRecordDO">
+        SELECT
+            FNumber AS fnumber,
+            FBizTime AS fbiztime,
+            FUserId AS fuserid,
+            FProductId AS fproductid,
+            FStartTime AS fstarttime,
+            FEndTime AS fendtime,
+            FInvestAmt AS finvestamt,
+            FProfit AS fprofit,
+            FAccurateProfit AS faccurateprofit,
+            FRemark AS fremark,
+            FStatus AS fstatus,
+            FProtocolNumber AS fprotocolnumber,
+            FContributive AS fcontributive,
+            FId AS FId
+        FROM
+            tp_invest_record
+        WHERE
+            1 = 1
+        AND FProductId = #{fproductid,jdbcType=VARCHAR}
+        AND FStartTime IS NULL
+        AND FEndTime IS NULL
+        AND IFNULL(FProfit, 0) = 0
+        ORDER BY
+            FBizTime DESC
+    </select>
+
+    <!-- 更新投资记录预期收益 -->
+    <update id="updateInvestProfit" parameterType="TpInvestRecordDO">
+         update tp_invest_record
+         set  FStartTime = #{fstarttime,jdbcType=TIMESTAMP},
+              FEndTime = #{fendtime,jdbcType=TIMESTAMP},
+              FProfit = #{fprofit,jdbcType=DOUBLE},
+              FAccurateProfit = #{faccurateprofit,jdbcType=DOUBLE},
+              FMAXPROFIT = #{fmaxprofit,jdbcType=DOUBLE},
+              FISFLOW = #{fisflow,jdbcType=INTEGER}
+         where FId = #{fid,jdbcType=VARCHAR}
+             and FStartTime is null
+             and FEndTime is null
+             and IFNULL(FProfit, 0) = 0
+    </update>
+</mapper>

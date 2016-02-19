@@ -1,0 +1,96 @@
+#set($layout="/layout/layout_no.vm")
+#set($title="任务列表")
+#set($rootPath = $!sysUtil.getSysName())
+
+<style type="text/css">
+    input{
+        width: 200px;
+    }
+
+    .time_input{width: 30px}
+</style>
+
+<table id="scheduleJobTable" class="easyui-datagrid" title="定时任务列表" border="1" style="width:100%;"
+       pagination="true" pageList="[10,20,40,50,100,500]">
+</table>
+<div id="toolbar" style="display: none;">
+    <div>
+        <form id="queryForm">
+            定时任务名： <input class="easyui-textbox" name="jobName" style="width:110px">
+            <a href="#" id="queryButton" class="easyui-linkbutton" iconCls="icon-search">查  询</a>
+        </form>
+    </div>
+</div>
+<br>
+
+
+<div id="saveWin" class="easyui-window" title="添加定时任务" closed="true" style="width:360px;height:375px;"
+     data-options="collapsible:false,minimizable:false,maximizable:false,modal:true">
+    <p style="color: red;" id="tipMsg"></p>
+    <form id="saveScheduleForm" action="/job/save-schedule-job" method="post">
+        <table style="padding:10px; margin: 10px;" align="center">
+            <tr>
+                <td>任务调用类</td>
+                <td><input title="包路径+类名"  type="text" id="jobClass" name="jobClass" required="true" class="easyui-validatebox"></td>
+            </tr>
+            <tr>
+                <td>任务名称</td>
+                <td><input type="text" id="jobName" name="jobName" required="true" class="easyui-validatebox"></td>
+            </tr>
+            <tr>
+                <td>任务分组</td>
+                <td><input  type="text" name="jobGroup" required="true" class="easyui-validatebox"></td>
+            </tr>
+            <tr>
+                <td>任务执行</td>
+                <td>
+                    <select id="cronType">
+                        <option value="1" selected>每月</option>
+                        <option value="2">每天</option>
+                        <option value="3">每小时</option>
+                        <option value="4">Cron表达式</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td id="selCronType">执行时间</td>
+                <td id="selCronTypeDiv">
+                    <div name="cType_1" id="cType_1">
+                        第<input type="text" class="time_input" id="dayOfMonth" name="dayOfMonth" title="每月第几天"> 天
+                        <input type="text" class="time_input" id="hour" name="hour"  title="每天几点"> 时
+                        <input type="text" class="time_input" id="minute" name="minute" title="每小时多少分"> 分
+                    </div>
+                    <div name="cType_2" style="display: none;">
+                        <input type="text" class="time_input" id="type2_hour" name="type2Hour"  title="每天几点"> 时
+                        <input type="text" class="time_input" id="type2_minute" name="type2Minute" title="每小时多少分"> 分
+                    </div>
+                    <div name="cType_3" style="display: none;">
+                        <input type="text" class="time_input" id="type3_minute" name="type3Minute" title="每小时多少分"> 分
+                        <input type="text" class="time_input" id="type3_second" name="second" title="每分多少秒"> 秒
+                    </div>
+                    <div name="cType_4" style="display: none;">
+                        <input type="text" name="cronExpression" >
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td title="JSON格式如: {'key': 'value'}">任务参数</td>
+                <td title="JSON格式如: {'key': 'value'}">
+                    <input type="text" name="params" id="params" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td>任务描述</td>
+                <td>
+                    <textarea name="description" cols="30" rows="6"></textarea>
+                </td>
+            </tr>
+        </table>
+        <div style="padding:5px;text-align:center;">
+            <a href="javascript:void(0);" id="save" class="easyui-linkbutton" icon="icon-ok">确认</a>
+            <a href="javascript:void(0);" id="cancel" class="easyui-linkbutton" icon="icon-cancel">取消</a>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="${rootPath}/js/list-schedule-job.js"></script>

@@ -1,0 +1,1183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xn.job.service.product.mapper.ProductInfoDOMapper" >
+  <resultMap id="BaseResultMap" type="cn.xn.job.service.product.model.ProductInfoDO" >
+    
+    <!-- ID -->
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    
+    <!-- 产品名称 -->
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    
+    <!-- 产品描述 -->
+    <result column="PRODUCT_DESC" property="productDesc" jdbcType="VARCHAR" />
+    
+    <!-- 产品协议表t_product_protocal主键 -->
+    <result column="PRODUCT_PROTOCAL_ID" property="productProtocalId" jdbcType="VARCHAR" />
+    
+    <!-- 产品计息方式表t_product_interest_way的主键计息ID -->
+    <result column="PRODUCT_INTEREST_WAY_ID" property="productInterestWayId" jdbcType="VARCHAR" />
+    
+    <!-- 产品类型表t_product_type的主键 -->
+    <result column="PRODUCT_TYPE_ID" property="productTypeId" jdbcType="VARCHAR" />
+    
+    <!-- 还本付息方式(1=一次性到期|2=一次性按日|3=一次性按月|4=一次性按季|5=等额本息(按月)|6=等额本息(按季) -->
+    <result column="REPAYMENT_WAY" property="repaymentWay" jdbcType="CHAR" />
+    
+    <!-- 是否浮动利率(1=固定利率|2=浮动利率) -->
+    <result column="IS_FLOW" property="isFlow" jdbcType="CHAR" />
+    
+    <!-- 固定利率 -->
+    <result column="FIX_RATE" property="fixRate" jdbcType="DECIMAL" />
+    
+    <!-- 浮动最小利率 -->
+    <result column="FLOW_MIN_RATE" property="flowMinRate" jdbcType="DECIMAL" />
+    
+    <!-- 浮动最大利率 -->
+    <result column="FLOW_MAX_RATE" property="flowMaxRate" jdbcType="DECIMAL" />
+    
+    <!-- 浮动最后利率可以为空|一旦有值计算利率就按此值来算 -->
+    <result column="FLOW_FINAL_RATE" property="flowFinalRate" jdbcType="DECIMAL" />
+    
+    <!-- 期限类型(1=天数|2=自然月) -->
+    <result column="DEAD_LINE_TYPE" property="deadLineType" jdbcType="CHAR" />
+    
+    <!-- 产品期限天数或月数值 -->
+    <result column="DEAD_LINE_VALUE" property="deadLineValue" jdbcType="DECIMAL" />
+    
+    <!-- 是否需要募集开始及截止时间(1=不需要|2=需要) -->
+    <result column="IS_COLLECT" property="isCollect" jdbcType="CHAR" />
+    
+    <!-- 募集开始时间|格式yyyy-MM-ddHH:mm:ss -->
+    <result column="COLLECT_BEGIN_TIME" property="collectBeginTime" jdbcType="TIMESTAMP" />
+    
+    <!-- 募集截止时间可以为nul格式yyyy-MM-ddHH:mm:ss -->
+    <result column="COLLECT_END_TIME" property="collectEndTime" jdbcType="TIMESTAMP" />
+    
+    <!-- 募集完成时间，相比募集截止时间可能会提前的募集已完成的时间条件|已达到募集截止时间(COLLECT_END_TIME)或者已达到产品总额度数(BUY_TOTAL_MONEY)格式|yyyy-MM-ddHH:mm:ss -->
+    <result column="COLLECT_FINISH_TIME" property="collectFinishTime" jdbcType="TIMESTAMP" />
+    
+    <!-- 起息方式(1=购买当日|2=购买次日|3=募集完成当日|4=募集完成次日|5=指定日期) -->
+    <result column="INTEREST_WAY" property="interestWay" jdbcType="CHAR" />
+    
+    <!-- 产品起息日格式yyyy-MM-dd -->
+    <result column="VALID_BEGIN_DATE" property="validBeginDate" jdbcType="TIMESTAMP" />
+    
+    <!-- 产品到期日格式yyyy-MM-dd -->
+    <result column="VALID_END_DATE" property="validEndDate" jdbcType="TIMESTAMP" />
+    
+    <!-- 产品单笔购买最小额度 -->
+    <result column="BUY_MIN_MONEY" property="buyMinMoney" jdbcType="DECIMAL" />
+    
+    <!-- 产品单笔购买最大额度 -->
+    <result column="BUY_MAX_MONEY" property="buyMaxMoney" jdbcType="DECIMAL" />
+    
+    <!-- 产品总额度产品募集要达到的总额度数不能为空作为募集完成时间确定条件之一 -->
+    <result column="BUY_TOTAL_MONEY" property="buyTotalMoney" jdbcType="DECIMAL" />
+    
+    <!-- 产品购买总人数(限制) -->
+    <result column="BUY_TOTAL_PEOPLE" property="buyTotalPeople" jdbcType="DECIMAL" />
+    
+    <!-- 产品被投资总额 -->
+    <result column="BUYED_TOTAL_MONEY" property="buyedTotalMoney" jdbcType="DECIMAL" />
+    
+    <!-- 产品已投资人数客户投资人数统计汇总 -->
+    <result column="BUYED_TOTAL_PEOPLE" property="buyedTotalPeople" jdbcType="DECIMAL" />
+    
+    <!-- 是否要显示在前端(1= 显示在列表|2= 显示在首页和列表|3= 显示在首页|4= 隐藏) -->
+    <result column="IS_SHOW" property="isShow" jdbcType="CHAR" />
+    
+    <!-- 移动端显示排序索引 -->
+    <result column="SHOW_INDEX" property="showIndex" jdbcType="DECIMAL" />
+    
+    <!-- 投标方式(1=手动|2=自动|默认为1) -->
+    <result column="TENDER_WAY" property="tenderWay" jdbcType="CHAR" />
+    
+    <!-- 是否可赎回(1=不赎回|2=赎回) -->
+    <result column="IS_REDEMPTION" property="isRedemption" jdbcType="CHAR" />
+    
+    <!-- 来源方式(1=公司内部产品|2=公司外部产品) -->
+    <result column="SOURCE_WAY" property="sourceWay" jdbcType="CHAR" />
+    
+    <!-- 货币类型(1=RMB|2=港币|3=美元) -->
+    <result column="MONEY_TYPE" property="moneyType" jdbcType="CHAR" />
+    
+    <!-- 风控类型(1=抵押|2=担保|3=信贷) -->
+    <result column="RISK_CONTROL_TYPE" property="riskControlType" jdbcType="CHAR" />
+    
+    <!-- 风险级别(1=一般|2=重要|3=紧急|4=非常紧急) -->
+    <result column="RISK_LEVEL" property="riskLevel" jdbcType="CHAR" />
+    
+    <!-- 流动性级别 -->
+    <result column="FLOW_LEVEL" property="flowLevel" jdbcType="CHAR" />
+    
+    <!-- 产品管理方式1=利息复投 -->
+    <result column="PRODUCT_MANAGE_WAY" property="productManageWay" jdbcType="CHAR" />
+    
+    <!-- 产品状态(1=待审核(数据初始化)|2=审核通过(上架)|3=募集完成|4=还款中|5=(已到期)下架|6=已还款|7=已删除|8=驳回|说明状态是顺序的不能往回审核通过的也可以修改除状态外的其它字段 -->
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    
+    <!-- 创建者用户名 -->
+    <result column="CREATER" property="creater" jdbcType="VARCHAR" />
+    
+    <!-- 创建时间 -->
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    
+    <!-- 最后一次修改者用户名 -->
+    <result column="UPDATER" property="updater" jdbcType="VARCHAR" />
+    
+    <!-- 最后一次修改时间 -->
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <!-- 修改或审核操作的说明 -->
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    
+    <!-- UUI同正式环境的产品表的FID(关联产品ID) -->
+    <result column="FID" property="fid" jdbcType="VARCHAR" />
+    
+    <!-- 显示状态(1=new|2=host) -->
+    <result column="IS_SHOW_STATUS" property="isShowStatus" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.xn.job.service.product.model.ProductInfoDOWithBLOBs" extends="BaseResultMap" >
+    <!-- 同正式环境的产品表的FDescription -->
+    <result column="FDESCRIPTION" property="fdescription" jdbcType="LONGVARCHAR" />
+    
+    <!-- 促销语 -->
+    <result column="PROMOTION_TEXT" property="promotionText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, PRODUCT_NAME, PRODUCT_DESC, PRODUCT_PROTOCAL_ID, PRODUCT_INTEREST_WAY_ID, PRODUCT_TYPE_ID, 
+    REPAYMENT_WAY, IS_FLOW, FIX_RATE, FLOW_MIN_RATE, FLOW_MAX_RATE, FLOW_FINAL_RATE, 
+    DEAD_LINE_TYPE, DEAD_LINE_VALUE, IS_COLLECT, COLLECT_BEGIN_TIME, COLLECT_END_TIME, 
+    COLLECT_FINISH_TIME, INTEREST_WAY, VALID_BEGIN_DATE, VALID_END_DATE, BUY_MIN_MONEY, 
+    BUY_MAX_MONEY, BUY_TOTAL_MONEY, BUY_TOTAL_PEOPLE, BUYED_TOTAL_MONEY, BUYED_TOTAL_PEOPLE, 
+    IS_SHOW, SHOW_INDEX, TENDER_WAY, IS_REDEMPTION, SOURCE_WAY, MONEY_TYPE, RISK_CONTROL_TYPE, 
+    RISK_LEVEL, FLOW_LEVEL, PRODUCT_MANAGE_WAY, STATUS, CREATER, CREATE_TIME, UPDATER, 
+    UPDATE_TIME, REMARK, FID, IS_SHOW_STATUS
+  </sql>
+  <sql id="Blob_Column_List" >
+    FDESCRIPTION, PROMOTION_TEXT
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="cn.xn.job.service.product.model.ProductInfoDOCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_product_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.xn.job.service.product.model.ProductInfoDOCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_product_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_product_info
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_product_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.xn.job.service.product.model.ProductInfoDOCriteria" >
+    delete from t_product_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_product_info (PRODUCT_NAME, PRODUCT_DESC, PRODUCT_PROTOCAL_ID, 
+      PRODUCT_INTEREST_WAY_ID, PRODUCT_TYPE_ID, REPAYMENT_WAY, 
+      IS_FLOW, FIX_RATE, FLOW_MIN_RATE, 
+      FLOW_MAX_RATE, FLOW_FINAL_RATE, DEAD_LINE_TYPE, 
+      DEAD_LINE_VALUE, IS_COLLECT, COLLECT_BEGIN_TIME, 
+      COLLECT_END_TIME, COLLECT_FINISH_TIME, 
+      INTEREST_WAY, VALID_BEGIN_DATE, VALID_END_DATE, 
+      BUY_MIN_MONEY, BUY_MAX_MONEY, BUY_TOTAL_MONEY, 
+      BUY_TOTAL_PEOPLE, BUYED_TOTAL_MONEY, BUYED_TOTAL_PEOPLE, 
+      IS_SHOW, SHOW_INDEX, TENDER_WAY, 
+      IS_REDEMPTION, SOURCE_WAY, MONEY_TYPE, 
+      RISK_CONTROL_TYPE, RISK_LEVEL, FLOW_LEVEL, 
+      PRODUCT_MANAGE_WAY, STATUS, CREATER, 
+      CREATE_TIME, UPDATER, UPDATE_TIME, 
+      REMARK, FID, IS_SHOW_STATUS, 
+      FDESCRIPTION, PROMOTION_TEXT)
+    values (#{productName,jdbcType=VARCHAR}, #{productDesc,jdbcType=VARCHAR}, #{productProtocalId,jdbcType=VARCHAR}, 
+      #{productInterestWayId,jdbcType=VARCHAR}, #{productTypeId,jdbcType=VARCHAR}, #{repaymentWay,jdbcType=CHAR}, 
+      #{isFlow,jdbcType=CHAR}, #{fixRate,jdbcType=DECIMAL}, #{flowMinRate,jdbcType=DECIMAL}, 
+      #{flowMaxRate,jdbcType=DECIMAL}, #{flowFinalRate,jdbcType=DECIMAL}, #{deadLineType,jdbcType=CHAR}, 
+      #{deadLineValue,jdbcType=DECIMAL}, #{isCollect,jdbcType=CHAR}, #{collectBeginTime,jdbcType=TIMESTAMP}, 
+      #{collectEndTime,jdbcType=TIMESTAMP}, #{collectFinishTime,jdbcType=TIMESTAMP}, 
+      #{interestWay,jdbcType=CHAR}, #{validBeginDate,jdbcType=TIMESTAMP}, #{validEndDate,jdbcType=TIMESTAMP}, 
+      #{buyMinMoney,jdbcType=DECIMAL}, #{buyMaxMoney,jdbcType=DECIMAL}, #{buyTotalMoney,jdbcType=DECIMAL}, 
+      #{buyTotalPeople,jdbcType=DECIMAL}, #{buyedTotalMoney,jdbcType=DECIMAL}, #{buyedTotalPeople,jdbcType=DECIMAL}, 
+      #{isShow,jdbcType=CHAR}, #{showIndex,jdbcType=DECIMAL}, #{tenderWay,jdbcType=CHAR}, 
+      #{isRedemption,jdbcType=CHAR}, #{sourceWay,jdbcType=CHAR}, #{moneyType,jdbcType=CHAR}, 
+      #{riskControlType,jdbcType=CHAR}, #{riskLevel,jdbcType=CHAR}, #{flowLevel,jdbcType=CHAR}, 
+      #{productManageWay,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{creater,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{fid,jdbcType=VARCHAR}, #{isShowStatus,jdbcType=CHAR}, 
+      #{fdescription,jdbcType=LONGVARCHAR}, #{promotionText,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_product_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productName != null" >
+        PRODUCT_NAME,
+      </if>
+      <if test="productDesc != null" >
+        PRODUCT_DESC,
+      </if>
+      <if test="productProtocalId != null" >
+        PRODUCT_PROTOCAL_ID,
+      </if>
+      <if test="productInterestWayId != null" >
+        PRODUCT_INTEREST_WAY_ID,
+      </if>
+      <if test="productTypeId != null" >
+        PRODUCT_TYPE_ID,
+      </if>
+      <if test="repaymentWay != null" >
+        REPAYMENT_WAY,
+      </if>
+      <if test="isFlow != null" >
+        IS_FLOW,
+      </if>
+      <if test="fixRate != null" >
+        FIX_RATE,
+      </if>
+      <if test="flowMinRate != null" >
+        FLOW_MIN_RATE,
+      </if>
+      <if test="flowMaxRate != null" >
+        FLOW_MAX_RATE,
+      </if>
+      <if test="flowFinalRate != null" >
+        FLOW_FINAL_RATE,
+      </if>
+      <if test="deadLineType != null" >
+        DEAD_LINE_TYPE,
+      </if>
+      <if test="deadLineValue != null" >
+        DEAD_LINE_VALUE,
+      </if>
+      <if test="isCollect != null" >
+        IS_COLLECT,
+      </if>
+      <if test="collectBeginTime != null" >
+        COLLECT_BEGIN_TIME,
+      </if>
+      <if test="collectEndTime != null" >
+        COLLECT_END_TIME,
+      </if>
+      <if test="collectFinishTime != null" >
+        COLLECT_FINISH_TIME,
+      </if>
+      <if test="interestWay != null" >
+        INTEREST_WAY,
+      </if>
+      <if test="validBeginDate != null" >
+        VALID_BEGIN_DATE,
+      </if>
+      <if test="validEndDate != null" >
+        VALID_END_DATE,
+      </if>
+      <if test="buyMinMoney != null" >
+        BUY_MIN_MONEY,
+      </if>
+      <if test="buyMaxMoney != null" >
+        BUY_MAX_MONEY,
+      </if>
+      <if test="buyTotalMoney != null" >
+        BUY_TOTAL_MONEY,
+      </if>
+      <if test="buyTotalPeople != null" >
+        BUY_TOTAL_PEOPLE,
+      </if>
+      <if test="buyedTotalMoney != null" >
+        BUYED_TOTAL_MONEY,
+      </if>
+      <if test="buyedTotalPeople != null" >
+        BUYED_TOTAL_PEOPLE,
+      </if>
+      <if test="isShow != null" >
+        IS_SHOW,
+      </if>
+      <if test="showIndex != null" >
+        SHOW_INDEX,
+      </if>
+      <if test="tenderWay != null" >
+        TENDER_WAY,
+      </if>
+      <if test="isRedemption != null" >
+        IS_REDEMPTION,
+      </if>
+      <if test="sourceWay != null" >
+        SOURCE_WAY,
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE,
+      </if>
+      <if test="riskControlType != null" >
+        RISK_CONTROL_TYPE,
+      </if>
+      <if test="riskLevel != null" >
+        RISK_LEVEL,
+      </if>
+      <if test="flowLevel != null" >
+        FLOW_LEVEL,
+      </if>
+      <if test="productManageWay != null" >
+        PRODUCT_MANAGE_WAY,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="creater != null" >
+        CREATER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updater != null" >
+        UPDATER,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="isShowStatus != null" >
+        IS_SHOW_STATUS,
+      </if>
+      <if test="fdescription != null" >
+        FDESCRIPTION,
+      </if>
+      <if test="promotionText != null" >
+        PROMOTION_TEXT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productDesc != null" >
+        #{productDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productProtocalId != null" >
+        #{productProtocalId,jdbcType=VARCHAR},
+      </if>
+      <if test="productInterestWayId != null" >
+        #{productInterestWayId,jdbcType=VARCHAR},
+      </if>
+      <if test="productTypeId != null" >
+        #{productTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentWay != null" >
+        #{repaymentWay,jdbcType=CHAR},
+      </if>
+      <if test="isFlow != null" >
+        #{isFlow,jdbcType=CHAR},
+      </if>
+      <if test="fixRate != null" >
+        #{fixRate,jdbcType=DECIMAL},
+      </if>
+      <if test="flowMinRate != null" >
+        #{flowMinRate,jdbcType=DECIMAL},
+      </if>
+      <if test="flowMaxRate != null" >
+        #{flowMaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="flowFinalRate != null" >
+        #{flowFinalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="deadLineType != null" >
+        #{deadLineType,jdbcType=CHAR},
+      </if>
+      <if test="deadLineValue != null" >
+        #{deadLineValue,jdbcType=DECIMAL},
+      </if>
+      <if test="isCollect != null" >
+        #{isCollect,jdbcType=CHAR},
+      </if>
+      <if test="collectBeginTime != null" >
+        #{collectBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectEndTime != null" >
+        #{collectEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectFinishTime != null" >
+        #{collectFinishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interestWay != null" >
+        #{interestWay,jdbcType=CHAR},
+      </if>
+      <if test="validBeginDate != null" >
+        #{validBeginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyMinMoney != null" >
+        #{buyMinMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="buyMaxMoney != null" >
+        #{buyMaxMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="buyTotalMoney != null" >
+        #{buyTotalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="buyTotalPeople != null" >
+        #{buyTotalPeople,jdbcType=DECIMAL},
+      </if>
+      <if test="buyedTotalMoney != null" >
+        #{buyedTotalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="buyedTotalPeople != null" >
+        #{buyedTotalPeople,jdbcType=DECIMAL},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=CHAR},
+      </if>
+      <if test="showIndex != null" >
+        #{showIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="tenderWay != null" >
+        #{tenderWay,jdbcType=CHAR},
+      </if>
+      <if test="isRedemption != null" >
+        #{isRedemption,jdbcType=CHAR},
+      </if>
+      <if test="sourceWay != null" >
+        #{sourceWay,jdbcType=CHAR},
+      </if>
+      <if test="moneyType != null" >
+        #{moneyType,jdbcType=CHAR},
+      </if>
+      <if test="riskControlType != null" >
+        #{riskControlType,jdbcType=CHAR},
+      </if>
+      <if test="riskLevel != null" >
+        #{riskLevel,jdbcType=CHAR},
+      </if>
+      <if test="flowLevel != null" >
+        #{flowLevel,jdbcType=CHAR},
+      </if>
+      <if test="productManageWay != null" >
+        #{productManageWay,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="isShowStatus != null" >
+        #{isShowStatus,jdbcType=CHAR},
+      </if>
+      <if test="fdescription != null" >
+        #{fdescription,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="promotionText != null" >
+        #{promotionText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.xn.job.service.product.model.ProductInfoDOCriteria" resultType="java.lang.Integer" >
+    select count(*) from t_product_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_product_info
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.productName != null" >
+        PRODUCT_NAME = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productDesc != null" >
+        PRODUCT_DESC = #{record.productDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productProtocalId != null" >
+        PRODUCT_PROTOCAL_ID = #{record.productProtocalId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productInterestWayId != null" >
+        PRODUCT_INTEREST_WAY_ID = #{record.productInterestWayId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productTypeId != null" >
+        PRODUCT_TYPE_ID = #{record.productTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repaymentWay != null" >
+        REPAYMENT_WAY = #{record.repaymentWay,jdbcType=CHAR},
+      </if>
+      <if test="record.isFlow != null" >
+        IS_FLOW = #{record.isFlow,jdbcType=CHAR},
+      </if>
+      <if test="record.fixRate != null" >
+        FIX_RATE = #{record.fixRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.flowMinRate != null" >
+        FLOW_MIN_RATE = #{record.flowMinRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.flowMaxRate != null" >
+        FLOW_MAX_RATE = #{record.flowMaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.flowFinalRate != null" >
+        FLOW_FINAL_RATE = #{record.flowFinalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deadLineType != null" >
+        DEAD_LINE_TYPE = #{record.deadLineType,jdbcType=CHAR},
+      </if>
+      <if test="record.deadLineValue != null" >
+        DEAD_LINE_VALUE = #{record.deadLineValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isCollect != null" >
+        IS_COLLECT = #{record.isCollect,jdbcType=CHAR},
+      </if>
+      <if test="record.collectBeginTime != null" >
+        COLLECT_BEGIN_TIME = #{record.collectBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.collectEndTime != null" >
+        COLLECT_END_TIME = #{record.collectEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.collectFinishTime != null" >
+        COLLECT_FINISH_TIME = #{record.collectFinishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.interestWay != null" >
+        INTEREST_WAY = #{record.interestWay,jdbcType=CHAR},
+      </if>
+      <if test="record.validBeginDate != null" >
+        VALID_BEGIN_DATE = #{record.validBeginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.validEndDate != null" >
+        VALID_END_DATE = #{record.validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.buyMinMoney != null" >
+        BUY_MIN_MONEY = #{record.buyMinMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.buyMaxMoney != null" >
+        BUY_MAX_MONEY = #{record.buyMaxMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.buyTotalMoney != null" >
+        BUY_TOTAL_MONEY = #{record.buyTotalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.buyTotalPeople != null" >
+        BUY_TOTAL_PEOPLE = #{record.buyTotalPeople,jdbcType=DECIMAL},
+      </if>
+      <if test="record.buyedTotalMoney != null" >
+        BUYED_TOTAL_MONEY = #{record.buyedTotalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.buyedTotalPeople != null" >
+        BUYED_TOTAL_PEOPLE = #{record.buyedTotalPeople,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isShow != null" >
+        IS_SHOW = #{record.isShow,jdbcType=CHAR},
+      </if>
+      <if test="record.showIndex != null" >
+        SHOW_INDEX = #{record.showIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="record.tenderWay != null" >
+        TENDER_WAY = #{record.tenderWay,jdbcType=CHAR},
+      </if>
+      <if test="record.isRedemption != null" >
+        IS_REDEMPTION = #{record.isRedemption,jdbcType=CHAR},
+      </if>
+      <if test="record.sourceWay != null" >
+        SOURCE_WAY = #{record.sourceWay,jdbcType=CHAR},
+      </if>
+      <if test="record.moneyType != null" >
+        MONEY_TYPE = #{record.moneyType,jdbcType=CHAR},
+      </if>
+      <if test="record.riskControlType != null" >
+        RISK_CONTROL_TYPE = #{record.riskControlType,jdbcType=CHAR},
+      </if>
+      <if test="record.riskLevel != null" >
+        RISK_LEVEL = #{record.riskLevel,jdbcType=CHAR},
+      </if>
+      <if test="record.flowLevel != null" >
+        FLOW_LEVEL = #{record.flowLevel,jdbcType=CHAR},
+      </if>
+      <if test="record.productManageWay != null" >
+        PRODUCT_MANAGE_WAY = #{record.productManageWay,jdbcType=CHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.creater != null" >
+        CREATER = #{record.creater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null" >
+        UPDATER = #{record.updater,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fid != null" >
+        FID = #{record.fid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isShowStatus != null" >
+        IS_SHOW_STATUS = #{record.isShowStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.fdescription != null" >
+        FDESCRIPTION = #{record.fdescription,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.promotionText != null" >
+        PROMOTION_TEXT = #{record.promotionText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_product_info
+    set ID = #{record.id,jdbcType=INTEGER},
+      PRODUCT_NAME = #{record.productName,jdbcType=VARCHAR},
+      PRODUCT_DESC = #{record.productDesc,jdbcType=VARCHAR},
+      PRODUCT_PROTOCAL_ID = #{record.productProtocalId,jdbcType=VARCHAR},
+      PRODUCT_INTEREST_WAY_ID = #{record.productInterestWayId,jdbcType=VARCHAR},
+      PRODUCT_TYPE_ID = #{record.productTypeId,jdbcType=VARCHAR},
+      REPAYMENT_WAY = #{record.repaymentWay,jdbcType=CHAR},
+      IS_FLOW = #{record.isFlow,jdbcType=CHAR},
+      FIX_RATE = #{record.fixRate,jdbcType=DECIMAL},
+      FLOW_MIN_RATE = #{record.flowMinRate,jdbcType=DECIMAL},
+      FLOW_MAX_RATE = #{record.flowMaxRate,jdbcType=DECIMAL},
+      FLOW_FINAL_RATE = #{record.flowFinalRate,jdbcType=DECIMAL},
+      DEAD_LINE_TYPE = #{record.deadLineType,jdbcType=CHAR},
+      DEAD_LINE_VALUE = #{record.deadLineValue,jdbcType=DECIMAL},
+      IS_COLLECT = #{record.isCollect,jdbcType=CHAR},
+      COLLECT_BEGIN_TIME = #{record.collectBeginTime,jdbcType=TIMESTAMP},
+      COLLECT_END_TIME = #{record.collectEndTime,jdbcType=TIMESTAMP},
+      COLLECT_FINISH_TIME = #{record.collectFinishTime,jdbcType=TIMESTAMP},
+      INTEREST_WAY = #{record.interestWay,jdbcType=CHAR},
+      VALID_BEGIN_DATE = #{record.validBeginDate,jdbcType=TIMESTAMP},
+      VALID_END_DATE = #{record.validEndDate,jdbcType=TIMESTAMP},
+      BUY_MIN_MONEY = #{record.buyMinMoney,jdbcType=DECIMAL},
+      BUY_MAX_MONEY = #{record.buyMaxMoney,jdbcType=DECIMAL},
+      BUY_TOTAL_MONEY = #{record.buyTotalMoney,jdbcType=DECIMAL},
+      BUY_TOTAL_PEOPLE = #{record.buyTotalPeople,jdbcType=DECIMAL},
+      BUYED_TOTAL_MONEY = #{record.buyedTotalMoney,jdbcType=DECIMAL},
+      BUYED_TOTAL_PEOPLE = #{record.buyedTotalPeople,jdbcType=DECIMAL},
+      IS_SHOW = #{record.isShow,jdbcType=CHAR},
+      SHOW_INDEX = #{record.showIndex,jdbcType=DECIMAL},
+      TENDER_WAY = #{record.tenderWay,jdbcType=CHAR},
+      IS_REDEMPTION = #{record.isRedemption,jdbcType=CHAR},
+      SOURCE_WAY = #{record.sourceWay,jdbcType=CHAR},
+      MONEY_TYPE = #{record.moneyType,jdbcType=CHAR},
+      RISK_CONTROL_TYPE = #{record.riskControlType,jdbcType=CHAR},
+      RISK_LEVEL = #{record.riskLevel,jdbcType=CHAR},
+      FLOW_LEVEL = #{record.flowLevel,jdbcType=CHAR},
+      PRODUCT_MANAGE_WAY = #{record.productManageWay,jdbcType=CHAR},
+      STATUS = #{record.status,jdbcType=CHAR},
+      CREATER = #{record.creater,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATER = #{record.updater,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      FID = #{record.fid,jdbcType=VARCHAR},
+      IS_SHOW_STATUS = #{record.isShowStatus,jdbcType=CHAR},
+      FDESCRIPTION = #{record.fdescription,jdbcType=LONGVARCHAR},
+      PROMOTION_TEXT = #{record.promotionText,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_product_info
+    set ID = #{record.id,jdbcType=INTEGER},
+      PRODUCT_NAME = #{record.productName,jdbcType=VARCHAR},
+      PRODUCT_DESC = #{record.productDesc,jdbcType=VARCHAR},
+      PRODUCT_PROTOCAL_ID = #{record.productProtocalId,jdbcType=VARCHAR},
+      PRODUCT_INTEREST_WAY_ID = #{record.productInterestWayId,jdbcType=VARCHAR},
+      PRODUCT_TYPE_ID = #{record.productTypeId,jdbcType=VARCHAR},
+      REPAYMENT_WAY = #{record.repaymentWay,jdbcType=CHAR},
+      IS_FLOW = #{record.isFlow,jdbcType=CHAR},
+      FIX_RATE = #{record.fixRate,jdbcType=DECIMAL},
+      FLOW_MIN_RATE = #{record.flowMinRate,jdbcType=DECIMAL},
+      FLOW_MAX_RATE = #{record.flowMaxRate,jdbcType=DECIMAL},
+      FLOW_FINAL_RATE = #{record.flowFinalRate,jdbcType=DECIMAL},
+      DEAD_LINE_TYPE = #{record.deadLineType,jdbcType=CHAR},
+      DEAD_LINE_VALUE = #{record.deadLineValue,jdbcType=DECIMAL},
+      IS_COLLECT = #{record.isCollect,jdbcType=CHAR},
+      COLLECT_BEGIN_TIME = #{record.collectBeginTime,jdbcType=TIMESTAMP},
+      COLLECT_END_TIME = #{record.collectEndTime,jdbcType=TIMESTAMP},
+      COLLECT_FINISH_TIME = #{record.collectFinishTime,jdbcType=TIMESTAMP},
+      INTEREST_WAY = #{record.interestWay,jdbcType=CHAR},
+      VALID_BEGIN_DATE = #{record.validBeginDate,jdbcType=TIMESTAMP},
+      VALID_END_DATE = #{record.validEndDate,jdbcType=TIMESTAMP},
+      BUY_MIN_MONEY = #{record.buyMinMoney,jdbcType=DECIMAL},
+      BUY_MAX_MONEY = #{record.buyMaxMoney,jdbcType=DECIMAL},
+      BUY_TOTAL_MONEY = #{record.buyTotalMoney,jdbcType=DECIMAL},
+      BUY_TOTAL_PEOPLE = #{record.buyTotalPeople,jdbcType=DECIMAL},
+      BUYED_TOTAL_MONEY = #{record.buyedTotalMoney,jdbcType=DECIMAL},
+      BUYED_TOTAL_PEOPLE = #{record.buyedTotalPeople,jdbcType=DECIMAL},
+      IS_SHOW = #{record.isShow,jdbcType=CHAR},
+      SHOW_INDEX = #{record.showIndex,jdbcType=DECIMAL},
+      TENDER_WAY = #{record.tenderWay,jdbcType=CHAR},
+      IS_REDEMPTION = #{record.isRedemption,jdbcType=CHAR},
+      SOURCE_WAY = #{record.sourceWay,jdbcType=CHAR},
+      MONEY_TYPE = #{record.moneyType,jdbcType=CHAR},
+      RISK_CONTROL_TYPE = #{record.riskControlType,jdbcType=CHAR},
+      RISK_LEVEL = #{record.riskLevel,jdbcType=CHAR},
+      FLOW_LEVEL = #{record.flowLevel,jdbcType=CHAR},
+      PRODUCT_MANAGE_WAY = #{record.productManageWay,jdbcType=CHAR},
+      STATUS = #{record.status,jdbcType=CHAR},
+      CREATER = #{record.creater,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATER = #{record.updater,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      FID = #{record.fid,jdbcType=VARCHAR},
+      IS_SHOW_STATUS = #{record.isShowStatus,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" >
+    update t_product_info
+    <set >
+      <if test="productName != null" >
+        PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productDesc != null" >
+        PRODUCT_DESC = #{productDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productProtocalId != null" >
+        PRODUCT_PROTOCAL_ID = #{productProtocalId,jdbcType=VARCHAR},
+      </if>
+      <if test="productInterestWayId != null" >
+        PRODUCT_INTEREST_WAY_ID = #{productInterestWayId,jdbcType=VARCHAR},
+      </if>
+      <if test="productTypeId != null" >
+        PRODUCT_TYPE_ID = #{productTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentWay != null" >
+        REPAYMENT_WAY = #{repaymentWay,jdbcType=CHAR},
+      </if>
+      <if test="isFlow != null" >
+        IS_FLOW = #{isFlow,jdbcType=CHAR},
+      </if>
+      <if test="fixRate != null" >
+        FIX_RATE = #{fixRate,jdbcType=DECIMAL},
+      </if>
+      <if test="flowMinRate != null" >
+        FLOW_MIN_RATE = #{flowMinRate,jdbcType=DECIMAL},
+      </if>
+      <if test="flowMaxRate != null" >
+        FLOW_MAX_RATE = #{flowMaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="flowFinalRate != null" >
+        FLOW_FINAL_RATE = #{flowFinalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="deadLineType != null" >
+        DEAD_LINE_TYPE = #{deadLineType,jdbcType=CHAR},
+      </if>
+      <if test="deadLineValue != null" >
+        DEAD_LINE_VALUE = #{deadLineValue,jdbcType=DECIMAL},
+      </if>
+      <if test="isCollect != null" >
+        IS_COLLECT = #{isCollect,jdbcType=CHAR},
+      </if>
+      <if test="collectBeginTime != null" >
+        COLLECT_BEGIN_TIME = #{collectBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectEndTime != null" >
+        COLLECT_END_TIME = #{collectEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectFinishTime != null" >
+        COLLECT_FINISH_TIME = #{collectFinishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interestWay != null" >
+        INTEREST_WAY = #{interestWay,jdbcType=CHAR},
+      </if>
+      <if test="validBeginDate != null" >
+        VALID_BEGIN_DATE = #{validBeginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validEndDate != null" >
+        VALID_END_DATE = #{validEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyMinMoney != null" >
+        BUY_MIN_MONEY = #{buyMinMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="buyMaxMoney != null" >
+        BUY_MAX_MONEY = #{buyMaxMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="buyTotalMoney != null" >
+        BUY_TOTAL_MONEY = #{buyTotalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="buyTotalPeople != null" >
+        BUY_TOTAL_PEOPLE = #{buyTotalPeople,jdbcType=DECIMAL},
+      </if>
+      <if test="buyedTotalMoney != null" >
+        BUYED_TOTAL_MONEY = #{buyedTotalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="buyedTotalPeople != null" >
+        BUYED_TOTAL_PEOPLE = #{buyedTotalPeople,jdbcType=DECIMAL},
+      </if>
+      <if test="isShow != null" >
+        IS_SHOW = #{isShow,jdbcType=CHAR},
+      </if>
+      <if test="showIndex != null" >
+        SHOW_INDEX = #{showIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="tenderWay != null" >
+        TENDER_WAY = #{tenderWay,jdbcType=CHAR},
+      </if>
+      <if test="isRedemption != null" >
+        IS_REDEMPTION = #{isRedemption,jdbcType=CHAR},
+      </if>
+      <if test="sourceWay != null" >
+        SOURCE_WAY = #{sourceWay,jdbcType=CHAR},
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE = #{moneyType,jdbcType=CHAR},
+      </if>
+      <if test="riskControlType != null" >
+        RISK_CONTROL_TYPE = #{riskControlType,jdbcType=CHAR},
+      </if>
+      <if test="riskLevel != null" >
+        RISK_LEVEL = #{riskLevel,jdbcType=CHAR},
+      </if>
+      <if test="flowLevel != null" >
+        FLOW_LEVEL = #{flowLevel,jdbcType=CHAR},
+      </if>
+      <if test="productManageWay != null" >
+        PRODUCT_MANAGE_WAY = #{productManageWay,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="creater != null" >
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null" >
+        UPDATER = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="isShowStatus != null" >
+        IS_SHOW_STATUS = #{isShowStatus,jdbcType=CHAR},
+      </if>
+      <if test="fdescription != null" >
+        FDESCRIPTION = #{fdescription,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="promotionText != null" >
+        PROMOTION_TEXT = #{promotionText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" >
+    update t_product_info
+    set PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      PRODUCT_DESC = #{productDesc,jdbcType=VARCHAR},
+      PRODUCT_PROTOCAL_ID = #{productProtocalId,jdbcType=VARCHAR},
+      PRODUCT_INTEREST_WAY_ID = #{productInterestWayId,jdbcType=VARCHAR},
+      PRODUCT_TYPE_ID = #{productTypeId,jdbcType=VARCHAR},
+      REPAYMENT_WAY = #{repaymentWay,jdbcType=CHAR},
+      IS_FLOW = #{isFlow,jdbcType=CHAR},
+      FIX_RATE = #{fixRate,jdbcType=DECIMAL},
+      FLOW_MIN_RATE = #{flowMinRate,jdbcType=DECIMAL},
+      FLOW_MAX_RATE = #{flowMaxRate,jdbcType=DECIMAL},
+      FLOW_FINAL_RATE = #{flowFinalRate,jdbcType=DECIMAL},
+      DEAD_LINE_TYPE = #{deadLineType,jdbcType=CHAR},
+      DEAD_LINE_VALUE = #{deadLineValue,jdbcType=DECIMAL},
+      IS_COLLECT = #{isCollect,jdbcType=CHAR},
+      COLLECT_BEGIN_TIME = #{collectBeginTime,jdbcType=TIMESTAMP},
+      COLLECT_END_TIME = #{collectEndTime,jdbcType=TIMESTAMP},
+      COLLECT_FINISH_TIME = #{collectFinishTime,jdbcType=TIMESTAMP},
+      INTEREST_WAY = #{interestWay,jdbcType=CHAR},
+      VALID_BEGIN_DATE = #{validBeginDate,jdbcType=TIMESTAMP},
+      VALID_END_DATE = #{validEndDate,jdbcType=TIMESTAMP},
+      BUY_MIN_MONEY = #{buyMinMoney,jdbcType=DECIMAL},
+      BUY_MAX_MONEY = #{buyMaxMoney,jdbcType=DECIMAL},
+      BUY_TOTAL_MONEY = #{buyTotalMoney,jdbcType=DECIMAL},
+      BUY_TOTAL_PEOPLE = #{buyTotalPeople,jdbcType=DECIMAL},
+      BUYED_TOTAL_MONEY = #{buyedTotalMoney,jdbcType=DECIMAL},
+      BUYED_TOTAL_PEOPLE = #{buyedTotalPeople,jdbcType=DECIMAL},
+      IS_SHOW = #{isShow,jdbcType=CHAR},
+      SHOW_INDEX = #{showIndex,jdbcType=DECIMAL},
+      TENDER_WAY = #{tenderWay,jdbcType=CHAR},
+      IS_REDEMPTION = #{isRedemption,jdbcType=CHAR},
+      SOURCE_WAY = #{sourceWay,jdbcType=CHAR},
+      MONEY_TYPE = #{moneyType,jdbcType=CHAR},
+      RISK_CONTROL_TYPE = #{riskControlType,jdbcType=CHAR},
+      RISK_LEVEL = #{riskLevel,jdbcType=CHAR},
+      FLOW_LEVEL = #{flowLevel,jdbcType=CHAR},
+      PRODUCT_MANAGE_WAY = #{productManageWay,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATER = #{updater,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      FID = #{fid,jdbcType=VARCHAR},
+      IS_SHOW_STATUS = #{isShowStatus,jdbcType=CHAR},
+      FDESCRIPTION = #{fdescription,jdbcType=LONGVARCHAR},
+      PROMOTION_TEXT = #{promotionText,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" >
+    update t_product_info
+    set PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      PRODUCT_DESC = #{productDesc,jdbcType=VARCHAR},
+      PRODUCT_PROTOCAL_ID = #{productProtocalId,jdbcType=VARCHAR},
+      PRODUCT_INTEREST_WAY_ID = #{productInterestWayId,jdbcType=VARCHAR},
+      PRODUCT_TYPE_ID = #{productTypeId,jdbcType=VARCHAR},
+      REPAYMENT_WAY = #{repaymentWay,jdbcType=CHAR},
+      IS_FLOW = #{isFlow,jdbcType=CHAR},
+      FIX_RATE = #{fixRate,jdbcType=DECIMAL},
+      FLOW_MIN_RATE = #{flowMinRate,jdbcType=DECIMAL},
+      FLOW_MAX_RATE = #{flowMaxRate,jdbcType=DECIMAL},
+      FLOW_FINAL_RATE = #{flowFinalRate,jdbcType=DECIMAL},
+      DEAD_LINE_TYPE = #{deadLineType,jdbcType=CHAR},
+      DEAD_LINE_VALUE = #{deadLineValue,jdbcType=DECIMAL},
+      IS_COLLECT = #{isCollect,jdbcType=CHAR},
+      COLLECT_BEGIN_TIME = #{collectBeginTime,jdbcType=TIMESTAMP},
+      COLLECT_END_TIME = #{collectEndTime,jdbcType=TIMESTAMP},
+      COLLECT_FINISH_TIME = #{collectFinishTime,jdbcType=TIMESTAMP},
+      INTEREST_WAY = #{interestWay,jdbcType=CHAR},
+      VALID_BEGIN_DATE = #{validBeginDate,jdbcType=TIMESTAMP},
+      VALID_END_DATE = #{validEndDate,jdbcType=TIMESTAMP},
+      BUY_MIN_MONEY = #{buyMinMoney,jdbcType=DECIMAL},
+      BUY_MAX_MONEY = #{buyMaxMoney,jdbcType=DECIMAL},
+      BUY_TOTAL_MONEY = #{buyTotalMoney,jdbcType=DECIMAL},
+      BUY_TOTAL_PEOPLE = #{buyTotalPeople,jdbcType=DECIMAL},
+      BUYED_TOTAL_MONEY = #{buyedTotalMoney,jdbcType=DECIMAL},
+      BUYED_TOTAL_PEOPLE = #{buyedTotalPeople,jdbcType=DECIMAL},
+      IS_SHOW = #{isShow,jdbcType=CHAR},
+      SHOW_INDEX = #{showIndex,jdbcType=DECIMAL},
+      TENDER_WAY = #{tenderWay,jdbcType=CHAR},
+      IS_REDEMPTION = #{isRedemption,jdbcType=CHAR},
+      SOURCE_WAY = #{sourceWay,jdbcType=CHAR},
+      MONEY_TYPE = #{moneyType,jdbcType=CHAR},
+      RISK_CONTROL_TYPE = #{riskControlType,jdbcType=CHAR},
+      RISK_LEVEL = #{riskLevel,jdbcType=CHAR},
+      FLOW_LEVEL = #{flowLevel,jdbcType=CHAR},
+      PRODUCT_MANAGE_WAY = #{productManageWay,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATER = #{updater,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      FID = #{fid,jdbcType=VARCHAR},
+      IS_SHOW_STATUS = #{isShowStatus,jdbcType=CHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- ### 以上代码由MBG + CommentPlugin自动生成, 生成时间: 2015-08-12 10:38:01 ### -->
+
+
+
+  <!-- Your codes goes here!!! -->
+  
+  <select resultMap="ResultMapWithBLOBs" parameterType="cn.xn.job.service.product.model.ProductInfoDOCriteria" id="selectByExampleWithBLOBsWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_product_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select resultMap="BaseResultMap" parameterType="cn.xn.job.service.product.model.ProductInfoDOCriteria" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_product_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="getObjectFID" resultMap="ResultMapWithBLOBs" parameterType="String">
+      SELECT * FROM T_PRODUCT_INFO WHERE FID = #{0} FOR UPDATE
+  </select>
+
+    <!-- 募集完成时间确定的定时任务调用 -->
+    <select id="getProductInfoListByJob" resultMap="BaseResultMap">
+        select
+            A.ID,
+            A.FID,
+            A.PRODUCT_NAME,
+            A.PRODUCT_DESC,
+            A.PRODUCT_PROTOCAL_ID,
+            A.PRODUCT_INTEREST_WAY_ID,
+            A.PRODUCT_TYPE_ID,
+            A.REPAYMENT_WAY,
+            A.IS_FLOW,
+            A.FIX_RATE,
+            A.FLOW_MIN_RATE,
+            A.FLOW_MAX_RATE,
+            A.FLOW_FINAL_RATE,
+            A.DEAD_LINE_TYPE,
+            A.DEAD_LINE_VALUE,
+            A.IS_COLLECT,
+            A.COLLECT_BEGIN_TIME,
+            A.COLLECT_END_TIME,
+            A.COLLECT_FINISH_TIME,
+            A.INTEREST_WAY,
+            A.VALID_BEGIN_DATE,
+            A.VALID_END_DATE,
+            A.BUY_MIN_MONEY,
+            A.BUY_MAX_MONEY,
+            A.BUY_TOTAL_MONEY,
+            A.BUY_TOTAL_PEOPLE,
+            A.BUYED_TOTAL_MONEY,
+            A.BUYED_TOTAL_PEOPLE,
+            A.IS_SHOW,
+            A.SHOW_INDEX,
+            A.TENDER_WAY,
+            A.IS_REDEMPTION,
+            A.SOURCE_WAY,
+            A.MONEY_TYPE,
+            A.RISK_CONTROL_TYPE,
+            A.RISK_LEVEL,
+            A.FLOW_LEVEL,
+            A.PRODUCT_MANAGE_WAY,
+            A.CREATER,
+            A.CREATE_TIME,
+            A.UPDATER,
+            A.UPDATE_TIME,
+            A.STATUS,
+            A.REMARK
+        FROM t_product_info A left join t_product_type D on A.PRODUCT_TYPE_ID=D.ID
+        WHERE 1=1
+        and (A.VALID_BEGIN_DATE is null and A.VALID_END_DATE is null )
+        and D.TYPE_VALUE in ('1','2')
+        and A.IS_COLLECT = 2
+        and (A.STATUS = 2 or A.STATUS = 3)
+        order by A.CREATE_TIME desc
+    </select>
+
+</mapper>

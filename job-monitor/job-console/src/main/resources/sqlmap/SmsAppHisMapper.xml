@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xn.job.common.mapper.SmsAppHisMapper">
+
+	<parameterMap type="cn.xn.job.common.model.TSmsAppHis" id="smsAppHis" />
+	
+	<resultMap type="cn.xn.job.common.model.TSmsAppHis" id="smsAppHisMap">
+		<result column="ID" property="id"  javaType="String" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="userId"  javaType="String" jdbcType="VARCHAR" />
+		<result column="MESSAGE_NAME" property="messageName"  javaType="String" jdbcType="VARCHAR" />
+		<result column="MESSAGE_PARAM" property="messageParam"  javaType="String" jdbcType="CLOB" />
+		<result column="MESSAGE_TYPE" property="messageType"  javaType="Integer" jdbcType="TINYINT" />
+		<result column="MESSAGE_STATUS" property="messageStatus"  javaType="Integer" jdbcType="TINYINT" />
+		<result column="INIT_TIME" property="initTime"  javaType="Date" jdbcType="TIMESTAMP" />
+		<result column="COMPLETE_TIME" property="completeTime"  javaType="Date" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<insert id="addBatch"  parameterType="java.util.ArrayList">
+		INSERT INTO T_SMS_APP_HIS   
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+						ID,
+						USER_ID,
+						MESSAGE_NAME,
+						MESSAGE_PARAM,
+						MESSAGE_TYPE,
+						MESSAGE_STATUS,
+						INIT_TIME,
+						COMPLETE_TIME,
+		</trim>
+		VALUES
+		<foreach item="item" index="index" collection="list" separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+						 #{item.id},
+						 #{item.userId},
+						 #{item.messageName},
+						 #{item.messageParam},
+						 #{item.messageType},
+						 #{item.messageStatus},
+						 #{item.initTime},
+						 #{item.completeTime},
+			</trim>
+		</foreach>
+	</insert>
+	
+	<insert id="add" parameterMap="smsAppHis" >
+		INSERT INTO T_SMS_APP_HIS   
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			 	<if test=" null != id and '' != id ">
+					ID,
+				</if>
+			 	<if test=" null != userId and '' != userId ">
+					USER_ID,
+				</if>
+			 	<if test=" null != messageName and '' != messageName ">
+					MESSAGE_NAME,
+				</if>
+			 	<if test=" null != messageParam and '' != messageParam ">
+					MESSAGE_PARAM,
+				</if>
+			 	<if test=" null != messageType">
+					MESSAGE_TYPE,
+				</if>
+			 	<if test=" null != messageStatus">
+					MESSAGE_STATUS,
+				</if>
+			 	<if test=" null != initTime">
+					INIT_TIME,
+				</if>
+			 	<if test=" null != completeTime">
+					COMPLETE_TIME,
+				</if>
+		</trim>
+		<trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+			 	<if test=" null != id and '' != id ">
+					 	#{id},
+				</if>
+			 	<if test=" null != userId and '' != userId ">
+					 	#{userId},
+				</if>
+			 	<if test=" null != messageName and '' != messageName ">
+					 	#{messageName},
+				</if>
+			 	<if test=" null != messageParam and '' != messageParam ">
+					 	#{messageParam},
+				</if>
+			 	<if test=" null != messageType">
+					 	#{messageType},
+				</if>
+			 	<if test=" null != messageStatus">
+					 	#{messageStatus},
+				</if>
+			 	<if test=" null != initTime">
+					 	#{initTime},
+				</if>
+			 	<if test=" null != completeTime">
+					 	#{completeTime},
+				</if>
+		</trim>
+	</insert>
+	
+	<delete id="delete" parameterType="Object">
+		DELETE FROM T_SMS_APP_HIS    WHERE ID IN
+		<foreach item="item" index="index" collection="array"  open="(" separator="," close=") ">
+			 #{item}
+		</foreach>
+	</delete>
+	
+	<update id="update" parameterMap="smsAppHis">
+		UPDATE T_SMS_APP_HIS   
+		<set>
+			<trim suffixOverrides=",">
+				<if test=" null != id and '' != id ">
+					ID = #{id},
+				</if>
+				<if test=" null != userId and '' != userId ">
+					USER_ID = #{userId},
+				</if>
+				<if test=" null != messageName and '' != messageName ">
+					MESSAGE_NAME = #{messageName},
+				</if>
+				<if test=" null != messageParam and '' != messageParam ">
+					MESSAGE_PARAM = #{messageParam},
+				</if>
+				<if test=" null != messageType">
+					MESSAGE_TYPE = #{messageType},
+				</if>
+				<if test=" null != messageStatus">
+					MESSAGE_STATUS = #{messageStatus},
+				</if>
+				<if test=" null != initTime">
+					INIT_TIME = #{initTime},
+				</if>
+				<if test=" null != completeTime">
+					COMPLETE_TIME = #{completeTime},
+				</if>
+			</trim>
+		</set>
+		<where>
+			<if test="null != id and '' != id">
+				ID = #{id}
+			</if>
+		</where>
+	</update>
+	
+	<select id="getList" resultMap="smsAppHisMap" parameterMap="smsAppHis">
+		SELECT * FROM T_SMS_APP_HIS   
+		<where>
+			1=1
+			<if test=" null != id and '' != id ">
+				AND ID LIKE '%${id}%'
+			</if>
+			<if test=" null != userId and '' != userId ">
+				AND USER_ID LIKE '%${userId}%'
+			</if>
+			<if test=" null != messageName and '' != messageName ">
+				AND MESSAGE_NAME LIKE '%${messageName}%'
+			</if>
+			<if test=" null != messageParam and '' != messageParam ">
+				AND MESSAGE_PARAM LIKE '%${messageParam}%'
+			</if>
+			<if test=" null != messageType">
+				AND MESSAGE_TYPE = #{messageType}
+			</if>
+			<if test=" null != messageStatus">
+				AND MESSAGE_STATUS = #{messageStatus}
+			</if>
+			<if test=" null != initTime">
+				AND INIT_TIME = #{initTime}
+			</if>
+			<if test=" null != completeTime">
+				AND COMPLETE_TIME = #{completeTime}
+			</if>
+		</where>
+			ORDER BY ID DESC  LIMIT ${(page-1)*rows},#{rows}
+	</select>
+	
+	<select id="count" resultType="Long" parameterMap="smsAppHis">
+		SELECT COUNT(ID) FROM T_SMS_APP_HIS   
+		<where>
+			1=1
+			<if test=" null != id and '' != id ">
+				AND ID LIKE '%${id}%'
+			</if>
+			<if test=" null != userId and '' != userId ">
+				AND USER_ID LIKE '%${userId}%'
+			</if>
+			<if test=" null != messageName and '' != messageName ">
+				AND MESSAGE_NAME LIKE '%${messageName}%'
+			</if>
+			<if test=" null != messageParam and '' != messageParam ">
+				AND MESSAGE_PARAM LIKE '%${messageParam}%'
+			</if>
+			<if test=" null != messageType">
+				AND MESSAGE_TYPE = #{messageType}
+			</if>
+			<if test=" null != messageStatus">
+				AND MESSAGE_STATUS = #{messageStatus}
+			</if>
+			<if test=" null != initTime">
+				AND INIT_TIME = #{initTime}
+			</if>
+			<if test=" null != completeTime">
+				AND COMPLETE_TIME = #{completeTime}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getObject" resultMap="smsAppHisMap" parameterType="String">
+		SELECT * FROM T_SMS_APP_HIS    WHERE ID = #{0}
+	</select>
+	
+</mapper>

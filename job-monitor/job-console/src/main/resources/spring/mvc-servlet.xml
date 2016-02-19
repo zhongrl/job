@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <context:property-placeholder location="classpath:resources.properties"/>
+
+    <mvc:annotation-driven />
+
+    <!-- 开启Controller注解支持  -->
+    <context:component-scan base-package="cn.xn.job.*.controller" use-default-filters="false">
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+    </context:component-scan>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+                <property name="conversionService" ref="conversionService"/>
+            </bean>
+
+        </property>
+        <property name="messageConverters">
+            <list>
+                <bean id="jsonHttpMessageConverter"
+                            class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/>
+                <!--<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>application/json</value>
+                            <value>text/json</value>
+                        </list>
+                    </property>
+                </bean>-->
+            </list>
+        </property>
+
+        <property name="customArgumentResolvers">
+            <list>
+                <bean class="cn.xn.freamwork.support.conversation.ConversationHandlerMethodArgumentResolver"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 类型转换 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" >
+        <property name="converters">
+            <set >
+                <bean class="cn.xn.freamwork.support.converter.DateConverter"/>
+            </set>
+        </property>
+    </bean>
+
+    <!-- 当在web.xml 中   DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
+    <mvc:default-servlet-handler />
+    <!-- 管理后台静态资源映射 -->
+    <mvc:resources location="/static/images/" mapping="/images/favicon.png"/>
+    <mvc:resources location="/static/js/" mapping="/js/**" />
+    <mvc:resources location="/static/css/" mapping="/css/**" />
+    <mvc:resources location="/static/images/" mapping="/images/**" />
+    <mvc:resources location="/static/ui/" mapping="/ui/**" />
+
+
+    <!-- 重定向请求,交给相应的视图解析器直接解析为视图  -->
+    <mvc:view-controller path="error/404" view-name="/error/404"/>
+    <mvc:view-controller path="error/500" view-name="/error/500"/>
+
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="resourceLoaderPath" value="${views.resourceLoaderPath}"/>
+        <!--<property name="configLocation" value="/WEB-INF/classes/velocity.properties" />-->
+        <property name="velocityProperties">
+            <props>
+                <prop key="output.encoding">UTF-8</prop>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="velocimacro.library">macro.vm</prop>
+                <prop key="velocimacro.library.autoreload">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="velocityEngine" ref="velocityEngine"/>
+    </bean>
+
+    <!--
+     View resolvers can also be configured with ResourceBundles or XML files. If you need
+     different view resolving based on Locale, you have to use the resource bundle resolver.
+    -->
+    <bean id="velocityViewResolver"
+                class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+        <property name="cache" value="false"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".vm"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="layoutUrl" value="/layout/default.vm"/>
+
+        <!-- if you want to use the Spring Velocity macros, set this property to true -->
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSessionAttributes" value="true"/>
+
+        <!--if you want to export request to vm.-->
+        <!--<property name="exposeRequestAttributes" value="true"/>-->
+        <!--If you want to export session to vm.-->
+        <!--<property name="exposeSessionAttributes" value="true"/>-->
+        <property name="toolboxConfigLocation" value="/WEB-INF/classes/toolbox.xml"/>
+        <property name="layoutKey" value="layout"/>
+        <property name="screenContentKey" value="screen_content"/>
+
+        <!--<property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityLayoutView"/>-->
+        <property name="viewClass" value="cn.xn.freamwork.support.velocity.SpringVelocityLayoutView"/>
+    </bean>
+
+
+    <!-- 全局异常配置 start -->
+    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.Exception">error/500</prop>
+                <prop key="java.lang.Throwable">error/500</prop>
+            </props>
+        </property>
+        <property name="statusCodes">
+            <props>
+                <prop key="error/404">404</prop>
+                <prop key="error/500">500</prop>
+                <prop key="error/csrf">500</prop>
+            </props>
+        </property>
+        <!-- 设置日志输出级别，不定义则默认不输出警告等错误日志信息 -->
+        <property name="warnLogCategory" value="WARN"/>
+        <!-- 默认错误页面，当找不到上面mappings中指定的异常对应视图时，使用本默认配置 -->
+        <property name="defaultErrorView" value="/error/500"/>
+        <!-- 默认HTTP状态码 -->
+        <property name="defaultStatusCode" value="500"/>
+    </bean>
+
+    <!-- 控制器异常处理 -->
+    <bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+    </bean>
+
+
+</beans>

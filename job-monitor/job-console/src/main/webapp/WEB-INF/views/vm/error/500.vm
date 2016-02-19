@@ -1,0 +1,3 @@
+#set($layout="/layout/layout_error.vm")
+#set($title="500")
+500

@@ -1,0 +1,7 @@
+#set($layout="/layout/default.vm")
+#set($title="欢迎使用JOB任务平台")
+
+<div style="align:center; font-size: 30px;">
+    <table id="executingJobList" title="当前运行中的任务" class="easyui-datagrid" style="width:100%;"></table>
+</div>
+<script type="text/javascript" src="js/home.js"></script>

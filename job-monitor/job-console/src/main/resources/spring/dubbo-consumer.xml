@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 宝箱服务 -->
+    <dubbo:reference interface="com.xiaoniuapp.activity.service.box.service.QuizBoxInterfaceService"
+                     id="quizBoxInterfaceService" consumer="defaultConsumer"/>
+
+    <!-- 体验金服务 -->
+    <dubbo:reference interface="com.xiaoniuapp.activity.service.redpaper.service.IExperienceCashService"
+                     id="expCashProviderService" consumer="defaultConsumer">
+        <dubbo:method name="sendIncome" async="true" return="false"/>
+        <dubbo:method name="expCashOverdue" async="true" return="false"/>
+    </dubbo:reference>
+
+    <!-- 会员抽活期宝利率叠加活动服务-->
+    <dubbo:reference interface="com.xiaoniuapp.activity.member.service.IMemberLotteryService" id="memberLotteryService"
+                     consumer="defaultConsumer" timeout="12000"/>
+
+    <!-- 红包校验服务 -->
+    <dubbo:reference interface="com.xiaoniuapp.activity.service.redpaper.service.RedpaperService" id="redpaperService"
+                     consumer="defaultConsumer">
+        <dubbo:method name="overdueForAppMessage" async="true" return="false"/>
+        <dubbo:method name="redpaperOverdue" async="true" return="false"/>
+    </dubbo:reference>
+
+    <!-- 分享红包服务 -->
+    <dubbo:reference interface="com.xiaoniuapp.activity.srfx.service.redpaper.service.ShartRedpaperOverdueService"
+                     id="shartRedpaperOverdueService" consumer="defaultConsumer">
+        <dubbo:method name="overdueRedpaper" async="true" return="false"/>
+    </dubbo:reference>
+
+    <!-- 定时红包塞钱服务 -->
+    <dubbo:reference interface="com.xiaoniuapp.activity.srfx.service.redpaper.service.TimingRedpaperService"
+                     id="timingRedpaperService" consumer="defaultConsumer"/>
+
+</beans>

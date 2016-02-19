@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolbox>
+    <tool>
+        <key>dateUtil</key>
+        <scope>application</scope>
+        <class>org.apache.commons.lang.time.DateUtils</class>
+    </tool>
+
+    <tool>
+        <key>strUtil</key>
+        <scope>application</scope>
+        <class>cn.xn.freamwork.util.StrUtil</class>
+    </tool>
+
+    <tool>
+        <key>sysUtil</key>
+        <scope>application</scope>
+        <class>cn.xn.freamwork.util.SystemUtils</class>
+    </tool>
+
+    <tool key="link" class="org.apache.velocity.tools.view.LinkTool"/>
+</toolbox>

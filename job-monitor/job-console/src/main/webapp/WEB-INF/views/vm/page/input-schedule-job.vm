@@ -1,0 +1,34 @@
+#set($layout="/layout/layout_no.vm")
+#set($title="添加/修改任务")
+
+<form action="/job/save-schedule-job" method="post">
+    <input type="hidden" name="scheduleJobId" value="">
+    <input type="hidden" name="keywords" value="">
+<table>
+    <tr>
+        <td>任务名称</td>
+        <td><input title="包路径+类名"  type="text" name="jobName"></td>
+    </tr>
+    <tr>
+        <td>任务别名</td>
+        <td><input type="text" name="aliasName"></td>
+    </tr>
+    <tr>
+        <td>任务分组</td>
+        <td><input  type="text" name="jobGroup"></td>
+    </tr>
+    <tr>
+        <td>时间表达式</td>
+        <td><input type="text" name="cronExpression"></td>
+    </tr>
+    <tr>
+        <td>是否异步</td>
+        <td><input type="text" name="isSync" ></td>
+    </tr>
+    <tr>
+        <td>任务描述</td>
+        <td><input type="text" name="description"></td>
+    </tr>
+</table>
+    <button type="submit">确认</button>
+</form>

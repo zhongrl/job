@@ -1,0 +1,14 @@
+<link rel="stylesheet" type="text/css" href="${rootPath}/css/default.css">
+<link rel="stylesheet" type="text/css" href="${rootPath}/ui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="${rootPath}/ui/themes/color.css">
+<link rel="stylesheet" type="text/css" href="${rootPath}/ui/themes/default/easyui.css">
+
+<script type="text/javascript" src="${rootPath}/ui/jquery.min.js"></script>
+<script type="text/javascript" src="${rootPath}/ui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${rootPath}/ui/datagrid-detailview.js"></script>
+<script type="text/javascript" src="${rootPath}/ui/validate.js"></script>
+<script type="text/javascript" src="${rootPath}/ui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="${rootPath}/ui/accounting.min.js"></script>
+<script type="text/javascript" src="${rootPath}/ui/jquery-form.js"></script>
+<script type="text/javascript" src="${rootPath}/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="${rootPath}/js/util.js"></script>

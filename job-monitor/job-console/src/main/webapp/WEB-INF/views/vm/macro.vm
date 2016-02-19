@@ -1,0 +1,122 @@
+##title
+#macro(title)
+    #if($title)
+        $title -
+    #else
+        欢迎访问
+    #end
+#end
+
+
+<!-- 实名认证 -->
+#macro(displayAuth $auth )
+    #if(1 == $auth)
+        已认证
+    #else
+        未认证
+    #end
+#end
+
+<!-- 用户状态 -->
+#macro(showUserState $state )
+    #if(1 == $state)
+        可用
+    #else
+        已禁用
+    #end
+#end
+
+#macro(displayMobileStatus $mobileStatus )
+    #if(1 == $mobileStatus)
+        已绑定
+    #else
+        未绑定
+    #end
+#end
+
+#macro(displayEmailStatus $emailStatus )
+    #if(1 == $emailStatus)
+        已绑定
+    #else
+        未绑定
+    #end
+#end
+
+<!-- token -->
+#macro( csrfToken )
+<input type="hidden" name="_ewt_csrf_token" value="$!_ewt_csrf_token"/>
+#end
+
+
+#macro(errorTip)
+    #if($!result)
+    <div class="error_div">
+        #foreach($error in $!result.allErrors)
+            $!velocityCount - $!error.defaultMessage <br>
+        #end
+    </div>
+    #end
+#end
+
+#macro(errorMessage)
+    #if($!error)
+    <div class="error_div">
+        $!error.msg
+    </div>
+    #end
+#end
+
+
+
+####### admin console
+#macro(paybackStateShow $state )
+    #if (1 == $state)
+        本金
+    #elseif (2 == $state)
+        收益
+    #else
+        未知
+    #end
+#end
+
+### 投资记录
+#macro(investStateShow $state)
+    #if (1 == $state)
+        申请中
+    #elseif (6 == $state)
+        投资成功
+    #elseif (2 == $state)
+        还款中
+    #elseif (3 == $state)
+        已结清
+    #else
+        投资失败
+    #end
+#end
+
+### 投资记录
+#macro(tradingStateShow $state)
+    #if (1 == $state)
+        提现
+    #elseif (2 == $state)
+        充值
+    #elseif (3 == $state)
+        投资
+    #elseif (6 == $state)
+        利息回款
+    #else
+        本金回款
+    #end
+#end
+
+
+### 审核状态
+#macro(withdrawStateShow $state)
+    #if (1 == $state)
+    待审核
+    #elseif (6 == $state)
+    审核通过
+    #else
+    未处理
+    #end
+#end

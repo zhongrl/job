@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="properties" ref="defaultProperties"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <value>file:/etc/xiaoniu/job-console/properties/resources.properties</value>
+        </property>
+    </bean>
+
+    <bean id="defaultProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <value>classpath:resources.properties</value>
+        </property>
+    </bean>
+
+
+    <!-- 开启注解配置 -->
+    <context:annotation-config />
+    <!-- 注解驱动 -->
+    <task:annotation-driven />
+
+    <!-- 对包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
+    <!-- 排除Controller注解扫描,因为mvc-servlet中扫描一次,再次扫描会导致事物失效问题 -->
+    <context:component-scan base-package="cn.xn.job">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+
+    <import resource="applicationContext-service.xml"/>
+    <import resource="applicationContext-orm.xml"/>
+    <import resource="spring-quartz.xml" />
+    <import resource="spring-config-cache.xml"/>
+    <import resource="spring-config-shiro.xml"/>
+    <import resource="spring-jms.xml"/>
+
+
+    <!-- dubbo config -->
+    <dubbo:application name="${consumer.application.name}"
+                       owner="${consumer.application.owner}" />
+
+
+    <dubbo:registry id="defaultRegistry"
+                    client="${consume.dubbo.registry.client}"
+                    address="${consumer.registry.address}"
+                    protocol="${consumer.protocol}" />
+
+    <dubbo:consumer id="defaultConsumer"
+                    registry="defaultRegistry"
+                    check="${consumer.check}"
+                    timeout="${consumer.timeout}"
+                    version="${consumer.version}"
+                    group="${consumer.group}"
+                    retries="${consumer.retries}"/>
+
+    <!-- 产品相关任务默认配置 -->
+    <dubbo:consumer id="defaultProductConsumer"
+                    registry="defaultRegistry"
+                    check="${consumer.check}"
+                    timeout="${consumer.timeout}"
+                    version="${consumer.version}"
+                    group="${consumer.product.task.group}"
+                    retries="${consumer.retries}"/>
+
+    <import resource="dubbo-consumer.xml"/>
+    <import resource="dubbo-consumer-product.xml"/>
+</beans>

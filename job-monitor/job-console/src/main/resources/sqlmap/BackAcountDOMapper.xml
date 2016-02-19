@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.xn.job.service.product.mapper.BackAcountDOMapper" >
+	<parameterMap type="shortMessageDO" id="shortMessageDO" />
+
+    <resultMap id="investRecordResultMap" type="cn.xn.job.service.product.model.InvestRecordModel" >
+        <id column="FId" property="fId" jdbcType="VARCHAR" />
+		<result  column="FProductId" property="fProductId" jdbcType="VARCHAR" />
+		<result  column="FName" property="fName" jdbcType="VARCHAR" />
+		<result  column="FEndTime" property="fEndTime" jdbcType="TIMESTAMP" />
+		<result  column="FRemark" property="fRemark" jdbcType="VARCHAR" />
+		<result  column="FProfit" property="fProfit" jdbcType="DOUBLE" />
+		<result  column="FBizTime" property="fBizTime" jdbcType="TIMESTAMP" />
+		<result  column="FStatus" property="fStatus" jdbcType="VARCHAR" />
+		<result  column="FUserId" property="fUserId" jdbcType="VARCHAR" />
+		<result  column="FAccurateProfit" property="fAccurateProfit" jdbcType="DOUBLE" />
+		<result  column="FStartTime" property="fStartTime" jdbcType="TIMESTAMP" />
+		<result  column="FInvestAmt" property="fInvestAmt" jdbcType="DOUBLE" />
+		<result  column="FProtocolNumber" property="fProtocolNumber" jdbcType="VARCHAR" />
+		<result  column="FContributive" property="fContributive" jdbcType="DOUBLE" />
+    </resultMap>
+	 <!-- 按时间查询统计TpInvestRecord表-->
+    <select id="getInvestRecords"  resultType="investRecordModel" parameterType="map">
+        <![CDATA[
+         	SELECT * FROM 
+        		tp_invest_record
+        	WHERE FStatus=3
+        		AND FEndTime = #{yesterDay, jdbcType=VARCHAR}
+        ]]>
+    </select>
+  
+    <!-- 根据userId 查询用户信息 -->
+    <select id="getUser"  resultType="userDO" parameterType="string">
+        SELECT * FROM ts_user 
+        	WHERE FId = #{userId, jdbcType=VARCHAR}
+    </select>
+    
+    <!-- 根据productId 查询产品信息 -->
+    <select id="getProductName"  resultType="tcProductInfoDO" parameterType="string">
+        SELECT FID AS fId,PRODUCT_NAME AS  productName  FROM t_product_info 
+        	WHERE FID = #{productId, jdbcType=VARCHAR}
+    </select>
+    
+    <!-- 查询消息格式 -->
+    <select id="getMessageContent"  resultType="string" parameterType="string">
+        SELECT FValue FROM ts_i18n_string 
+        	WHERE FCode = #{message , jdbcType=VARCHAR}
+    </select>
+    
+    <!-- 插入短信记录 -->
+    <insert id="insert" parameterMap="shortMessageDO">
+    	insert into ts_short_message
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="fId != null" >
+	       	FId,
+	      </if>
+	      <if test="mobile != null" >
+	        FMobile,
+	      </if>
+	      <if test="status != null" >
+	        FStatus,
+	      </if>
+	      <if test="userId != null" >
+	        FUserId,
+	      </if>
+	      <if test="departmentId != null" >
+	        FDepartmentId,
+	      </if>
+	      <if test="sendTime != null" >
+	        FSendTime,
+	      </if>
+	      <if test="receiveTime != null" >
+	        FReceiveTime,
+	      </if>
+	      <if test="direction != null" >
+	        FDirection,
+	      </if>
+	      <if test="timed != null" >
+	        FTimed,
+	      </if>
+	      <if test="to != null" >
+	        FTo,
+	      </if>
+	      <if test="smsId != null" >
+	        FSmsid,
+	      </if>
+	      <if test="type != null" >
+	        FType,
+	      </if>
+	      <if test="activityId != null" >
+	        FActivityId,
+	      </if>
+	       <if test="subPort != null" >
+	        FSubPort,
+	      </if>
+	       <if test="toUserId != null" >
+	        FToUserId,
+	      </if>
+	      <if test="errorMessage != null" >
+	        FErrMsg,
+	      </if>
+	      <if test="entityId != null" >
+	        FEntityId,
+	      </if>
+	      <if test="unitId != null" >
+	        FUnitId,
+	      </if>
+	      <if test="toSchemaId != null" >
+	        FToSchemaId,
+	      </if>
+	      <if test="toUnitId != null" >
+	        FToUnitId,
+	      </if>
+	      <if test="number != null" >
+	        FNumber,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      <if test="fId != null" >
+	         #{fId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="mobile != null" >
+	         #{mobile,jdbcType=VARCHAR},
+	      </if>
+	      <if test="status != null" >
+	        #{status,jdbcType=VARCHAR},
+	      </if>
+	      <if test="userId != null" >
+	        #{userId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="departmentId != null" >
+	        #{departmentId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sendTime != null" >
+	        #{sendTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="receiveTime != null" >
+	        #{receiveTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="direction != null" >
+	        #{direction,jdbcType=VARCHAR},
+	      </if>
+	      <if test="timed != null" >
+	        #{timed,jdbcType=VARCHAR},
+	      </if>
+	      <if test="to != null" >
+	        #{to,jdbcType=VARCHAR},
+	      </if>
+	      <if test="smsId != null" >
+	        #{smsId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="type != null" >
+	         #{type,jdbcType=VARCHAR},
+	      </if>
+	      <if test="activityId != null" >
+	        #{activityId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="subPort != null" >
+	       	#{subPort,jdbcType=VARCHAR},
+	      </if>
+	      <if test="toUserId != null" >
+	        #{toUserId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="errorMessage != null" >
+	         #{errorMessage,jdbcType=VARCHAR},
+	      </if>
+	      <if test="entityId != null" >
+	         #{entityId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="unitId != null" >
+	        #{unitId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="toSchemaId != null" >
+	        #{toSchemaId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="toUnitId != null" >
+	        #{toUnitId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="number != null" >
+	       #{number,jdbcType=VARCHAR},
+	      </if>
+	    </trim>
+    </insert>
+    
+    <update id="update" parameterType="shortMessageDO">
+    	UPDATE ts_short_message
+    <set>
+    	<if test="fId != null" >
+	        FId = #{fId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="mobile != null" >
+	          FMobile = #{mobile,jdbcType=VARCHAR},
+	      </if>
+	      <if test="status != null" >
+	        FStatus = #{status,jdbcType=VARCHAR},
+	      </if>
+	      <if test="userId != null" >
+	        FUserId = #{userId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="departmentId != null" >
+	        FDepartmentId = #{departmentId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sendTime != null" >
+	        FSendTime = #{sendTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="receiveTime != null" >
+	        FReceiveTime = #{receiveTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="direction != null" >
+	        FDirection = #{direction,jdbcType=VARCHAR},
+	      </if>
+	      <if test="timed != null" >
+	        FTimed = #{timed,jdbcType=VARCHAR},
+	      </if>
+	      <if test="to != null" >
+	        FTo = #{to,jdbcType=VARCHAR},
+	      </if>
+	      <if test="smsId != null" >
+	        FSmsid = #{smsId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="type != null" >
+	         FType = #{type,jdbcType=VARCHAR},
+	      </if>
+	      <if test="activityId != null" >
+	        FActivityId = #{activityId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="subPort != null" >
+	       	FSubPort = #{subPort,jdbcType=VARCHAR},
+	      </if>
+	      <if test="toUserId != null" >
+	        FToUserId = #{toUserId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="errorMessage != null" >
+	         FErrMsg = #{errorMessage,jdbcType=VARCHAR},
+	      </if>
+	      <if test="entityId != null" >
+	         FEntityId = #{entityId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="unitId != null" >
+	        FUnitId = #{unitId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="toSchemaId != null" >
+	        FToSchemaId = #{toSchemaId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="toUnitId != null" >
+	        FToUnitId = #{toUnitId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="number != null" >
+	       FNumber = #{number,jdbcType=VARCHAR},
+	      </if>
+    </set>
+    	WHERE FId = #{fId,jdbcType=VARCHAR}
+    </update>
+</mapper>

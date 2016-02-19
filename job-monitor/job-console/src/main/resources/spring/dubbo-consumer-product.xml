@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 活期计息 -->
+    <dubbo:reference
+            interface="com.xiaoniuapp.product.service.task.ICurrentAccrualsTask"
+            id="currentAccrualsTask" consumer="defaultProductConsumer" />
+
+    <!-- 活期额度调整 -->
+    <dubbo:reference
+            interface="com.xiaoniuapp.product.service.task.IProductAmountsLimitTask"
+            id="productAmountsLimitTask" consumer="defaultProductConsumer" />
+
+    <!-- 定期产品回款 -->
+    <dubbo:reference
+            interface="com.xiaoniuapp.product.service.task.IFixReturnedTask"
+            id="fixReturnedTask" consumer="defaultProductConsumer" />
+
+    <!-- 批量推送已存APP消息 -->
+    <dubbo:reference
+            interface="com.xiaoniuapp.product.service.task.IMsPushAppTask"
+            id="msPushAppTask" consumer="defaultProductConsumer" />
+
+	<!-- 转让产品到期回款 -->
+    <dubbo:reference
+            interface="com.xiaoniuapp.product.service.transfer.ITransferProductAdminService"
+            id="iTransferProductAdminService" consumer="defaultProductConsumer" />
+	
+	<!-- 活期宝赎回后台服务 -->
+    <dubbo:reference
+            interface="com.xiaoniuapp.product.service.redeem.ICurrentRedeemAdminService"
+            id="iCurrentRedeemAdminService" consumer="defaultProductConsumer" />
+
+	<!-- 未完成支付投资系统补单后台服务 -->
+    <dubbo:reference
+            interface="com.xiaoniuapp.product.service.buy.IInvestOrderAdminService"
+            id="iInvestOrderAdminService" consumer="defaultProductConsumer" />
+
+</beans>
